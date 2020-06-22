@@ -6,6 +6,7 @@
 <section class="row">
   <article class="column">
     <h2>Resources</h2>
+    <x-app></x-app>
     <ul>
       <li>
         <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
