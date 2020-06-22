@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :cuttlefish, Cuttlefish.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("DB_USER"),
+  password: System.get_env("DB_PASSWORD"),
   database: "cuttlefish_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
