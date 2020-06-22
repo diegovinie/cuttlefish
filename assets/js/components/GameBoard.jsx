@@ -3,7 +3,7 @@ import React from 'react'
 const GameBoard = () => {
 
   return (
-    <div>hey</div>
+    <div className="game-board">board</div>
   )
 }
 

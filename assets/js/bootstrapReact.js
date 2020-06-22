@@ -1,4 +1,4 @@
 import { define } from 'remount'
-import GameBoard from './components/GameBoard.jsx'
+import Main from './Main.jsx'
 
-define({ 'x-app': GameBoard })
+define({ 'x-app': Main })
