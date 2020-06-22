@@ -1,0 +1,53 @@
+
+@startuml
+title Actors' relationships
+
+enum Status {
+  ENDED
+  FAILED
+  PENDING
+}
+class Player {
+  A user participating in the game
+  ==
+  id: Integer
+  nickname: String
+  question: String // set by the user for easy recovery
+  secret: String
+}
+
+class Game {
+  id: Integer
+  name: String
+  avg: Float
+  sd: Float
+  status: Status
+  createdA_at: timestamp
+  updated_at: timestamp
+}
+
+class GamePlayer {
+  Player's performance in a game
+  ===
+  id: Integer
+  player_id: Player.id
+  game_id: Game.id
+  value: Integer
+}
+
+class CardSet {
+  Every set could have different card values
+  ===
+  id: Integer
+  name: String
+  content: JSON
+  notes: String
+}
+
+Game --o GamePlayer : "a game player participates in a game"
+Player --o GamePlayer
+
+CardSet --* Game : "A game has a card set"
+Status --* Game : "A game has a status"
+
+@enduml
