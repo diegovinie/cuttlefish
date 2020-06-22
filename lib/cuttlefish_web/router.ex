@@ -20,7 +20,9 @@ defmodule CuttlefishWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", CuttlefishWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", CuttlefishWeb do
+    pipe_through :api
+
+    resources "/login", PlayerController
+  end
 end
