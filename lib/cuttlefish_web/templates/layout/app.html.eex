@@ -7,7 +7,7 @@
     <title>Cuttlefish · Phoenix Framework</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
-  <body>
+  <body class="bg-dark">
     <header>
       <section class="container">
         <nav role="navigation">

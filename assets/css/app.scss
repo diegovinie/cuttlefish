@@ -1,0 +1,22 @@
+/* This file is for your main application css. */
+
+@import "./phoenix.css";
+@import 'variables';
+
+html {
+  font-size: $font-size;
+}
+
+body {
+  color: $font-color;
+}
+
+.bg {
+  &-dark {
+    background-color: $dark;
+  }
+
+  &-light {
+    background-color: $light;
+  }
+}

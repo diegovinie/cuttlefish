@@ -1,0 +1,18 @@
+// variables
+$primary: orange;
+$secondary: #bada55;
+$dark: #000919;
+$light: #afafaf;
+
+:root {
+  --primary: #{$primary};
+  --secondary: #{$secondary};
+  --dark: #{$dark};
+  --light: #{$light};
+}
+
+$font-size: 14px;
+$line-height: 1.15;
+$font-color: $light;
+
+$border-radius: 5px;
