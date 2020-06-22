@@ -1,0 +1,10 @@
+.navbar {
+  background-color: var(--light);
+  color: var(--dark);
+  display: flex;
+  padding: 1rem;
+
+  &-content {
+    margin: auto;
+  }
+}
