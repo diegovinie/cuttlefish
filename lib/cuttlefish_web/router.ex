@@ -23,7 +23,8 @@ defmodule CuttlefishWeb.Router do
   scope "/api", CuttlefishWeb do
     pipe_through :api
 
-    resources "/login", PlayerController
+    get "players/search", PlayerController, :look_up
+    resources "/players", PlayerController
 
     resources "/cardsets", CardSetController
   end

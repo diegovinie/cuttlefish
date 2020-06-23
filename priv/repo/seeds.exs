@@ -14,3 +14,9 @@ Cuttlefish.Repo.insert!(%Cuttlefish.Game.CardSet{
   name: "standard",
   content: [1, 3, 7]
 })
+
+Cuttlefish.Repo.insert!(%Cuttlefish.Auth.Player{
+  nickname: "sandman",
+  question: "Take my hand",
+  secret: "We're off to never-never land"
+})

@@ -21,6 +21,11 @@ defmodule Cuttlefish.Auth do
     Repo.all(Player)
   end
 
+  def search nickname do
+    q = from p in Player, where: p.nickname == ^nickname
+    Repo.one(q)
+  end
+
   @doc """
   Gets a single player.
 
