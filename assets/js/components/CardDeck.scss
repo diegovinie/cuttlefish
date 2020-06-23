@@ -6,5 +6,23 @@
 
   &-content {
     margin: auto;
+
+    &-title {
+      text-align: center;
+      margin: auto;
+      margin-bottom: 1rem;
+    }
+
+    &-list {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      &-card {
+        padding: 1rem;
+        border: solid 1px var(--primary);
+      }
+    }
   }
 }

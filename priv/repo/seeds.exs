@@ -9,3 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Cuttlefish.Repo.insert!(%Cuttlefish.Game.CardSet{
+  name: "standard",
+  content: [1, 3, 7]
+})

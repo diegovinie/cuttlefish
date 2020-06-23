@@ -24,5 +24,7 @@ defmodule CuttlefishWeb.Router do
     pipe_through :api
 
     resources "/login", PlayerController
+
+    resources "/cardsets", CardSetController
   end
 end
