@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import './GameBoard.scss'
 import playerApi from '../api/players'
+import { useContextValue } from '../store'
 
 const GameBoard = () => {
   const [nickname, setNickname] = useState('')
-  const [user, setUser] = useState({})
+  const [{ user }, dispatch] = useContextValue()
+
+  const setUser = user => dispatch({ type: 'SET_USER', user })
 
   const handleInput = e => {
     setNickname(e.target.value)

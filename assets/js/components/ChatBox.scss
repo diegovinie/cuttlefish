@@ -12,10 +12,18 @@
       color: var(--dark);
       padding: 0;
       margin: 0;
+      list-style: none;
       flex: 1;
+      font-size: 50%;
 
       &-message {
         margin: 0;
+        border-bottom: solid 1px var(--light);
+        padding: 0.5rem;
+
+        & .username, & .time {
+          color: var(--secondary);
+        }
       }
     }
 

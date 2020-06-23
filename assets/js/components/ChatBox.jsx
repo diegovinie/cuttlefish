@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import './ChatBox.scss'
 import { channel } from '../socket'
+import { parseMsg } from '../functions'
+import { useContextValue } from '../store'
 
 const ChatBox = () => {
-
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
+  const [{ user: { nickname: username } }, dispatch] = useContextValue()
 
   const handleInput = e => setInput(e.target.value)
 
   const handleKeyPress = e => {
     if (event.key === 'Enter') {
-      channel.push('new_msg', {body: input})
+      channel.push('new_msg', parseMsg({ username, body: input }))
       setInput('')
     }
   }
 
   const handleNewMsg = useCallback(
-    payload => setMessages(msgs => msgs.concat(payload.body)), []
+    msg => setMessages(msgs => msgs.concat(msg)), []
   )
 
   useEffect(
@@ -32,8 +34,16 @@ const ChatBox = () => {
       <div className="chat-box-content">
         <ul className="chat-box-content-logs">
           {messages.map(msg => (
-            <li key={msg} className="chat-box-content-logs-message">
-              {msg}
+            <li key={msg.body} className="chat-box-content-logs-message">
+              <div className="username">
+                U: {msg.username}
+              </div>
+              <div className="time">
+                T: {msg.created_at}
+              </div>
+              <div className="body">
+                {msg.body}
+              </div>
             </li>
           ))}
         </ul>
