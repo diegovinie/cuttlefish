@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import './GameBoard.scss'
 import playerApi from '../api/players'
 import { useContextValue } from '../store'
+import { useNotify } from './Notify.jsx'
 
 const GameBoard = () => {
   const [nickname, setNickname] = useState('')
   const [{ user }, dispatch] = useContextValue()
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
+
+  const { fire, reset } = useNotify()
 
   const handleInput = e => {
     setNickname(e.target.value)
@@ -32,6 +35,13 @@ const GameBoard = () => {
         <input value={nickname} onChange={handleInput} />
         <button type="submit">
           send
+        </button>
+        <button type="button" onClick={() => fire({ title: 'aaaa', body: 'der'})}>
+          fire
+        </button>
+
+        <button type="button" onClick={() => reset()}>
+          reset
         </button>
       </form>
 
