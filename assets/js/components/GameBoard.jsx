@@ -10,7 +10,11 @@ const GameBoard = () => {
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
 
-  const { fire, reset } = useNotify()
+  const { state: { displayed }, fire, reset } = useNotify()
+
+  const handleToggle = () => displayed
+    ? reset()
+    : fire({ title: 'aaaa', body: 'der'})
 
   const handleInput = e => {
     setNickname(e.target.value)
@@ -36,15 +40,10 @@ const GameBoard = () => {
         <button type="submit">
           send
         </button>
-        <button type="button" onClick={() => fire({ title: 'aaaa', body: 'der'})}>
-          fire
-        </button>
-
-        <button type="button" onClick={() => reset()}>
-          reset
+        <button type="button" onClick={handleToggle}>
+          {displayed ? 'close': 'open'}
         </button>
       </form>
-
     </div>
   )
 }

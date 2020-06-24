@@ -49,6 +49,7 @@ export const useNotify = () => {
   }
 
   return {
+    state,
     fire,
     reset,
     // show,
