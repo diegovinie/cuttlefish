@@ -7,3 +7,6 @@ Creates a json context
 ```bash
 phx.gen.json Auth Player players nickname:string question:string secret:string
 ```
+mix phx.gen.json Game CardSet cardsets name:string content:string notes:string
+
+mix phx.gen.presence

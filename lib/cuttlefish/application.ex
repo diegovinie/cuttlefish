@@ -11,9 +11,10 @@ defmodule Cuttlefish.Application do
       # Start the Ecto repository
       Cuttlefish.Repo,
       # Start the endpoint when the application starts
-      CuttlefishWeb.Endpoint
+      CuttlefishWeb.Endpoint,
       # Starts a worker by calling: Cuttlefish.Worker.start_link(arg)
       # {Cuttlefish.Worker, arg},
+      CuttlefishWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
