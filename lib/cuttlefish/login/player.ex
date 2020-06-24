@@ -1,4 +1,4 @@
-defmodule Cuttlefish.Auth.Player do
+defmodule Cuttlefish.Login.Player do
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -6,7 +6,7 @@ import Register from './Register.jsx'
 import './GameBoard.scss'
 
 const GameBoard = () => {
-  const [nickname, setNickname] = useState('')
+  const [username, setUsername] = useState('')
   const [{ user }, dispatch] = useContextValue()
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
@@ -20,17 +20,17 @@ const GameBoard = () => {
   const fireRegistration = () => fire({
     title: 'Welcome!',
     noActions: true,
-    body: <Register nickname={nickname} onDone={reset} />
+    body: <Register username={username} onDone={reset} />
   })
 
   const handleInput = e => {
-    setNickname(e.target.value)
+    setUsername(e.target.value)
   }
 
   const handleSubmit = e => {
     e.preventDefault()
 
-    playerApi.lookUp(nickname)
+    playerApi.lookUp(username)
       .then(({data}) => data)
       .then(user => user || Promise.reject(user))
       .then(setUser)
@@ -39,9 +39,9 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
-      <div className="game-board-content">board {user.nickname}</div>
+      <div className="game-board-content">board {user.username}</div>
       <form onSubmit={handleSubmit} className="game-board-content">
-        <input value={nickname} onChange={handleInput} />
+        <input value={username} onChange={handleInput} />
         <button type="submit">
           send
         </button>

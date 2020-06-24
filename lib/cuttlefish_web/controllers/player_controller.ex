@@ -25,8 +25,8 @@ defmodule CuttlefishWeb.PlayerController do
     render(conn, "show.json", player: player)
   end
 
-  def look_up(conn, %{"nickname" => nickname}) do
-    player = Auth.search(nickname)
+  def look_up(conn, %{"username" => username}) do
+    player = Auth.search(username)
     render(conn, "show.json", player: player)
   end
 

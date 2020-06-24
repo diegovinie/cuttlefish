@@ -3,7 +3,7 @@ defmodule Cuttlefish.Repo.Migrations.CreatePlayers do
 
   def change do
     create table(:players) do
-      add :nickname, :string
+      add :username, :string
       add :question, :string
       add :secret, :string
 

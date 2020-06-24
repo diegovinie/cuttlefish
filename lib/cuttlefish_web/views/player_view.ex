@@ -12,7 +12,7 @@ defmodule CuttlefishWeb.PlayerView do
 
   def render("player.json", %{player: player}) do
     %{id: player.id,
-      nickname: player.nickname,
+      username: player.username,
       question: player.question,
       secret: player.secret}
   end

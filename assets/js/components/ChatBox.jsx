@@ -8,7 +8,7 @@ const ChatBox = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
   const [users, setUsers] = useState([])
-  const [{ user: { nickname: username } }, dispatch] = useContextValue()
+  const [{ user: { username } }, dispatch] = useContextValue()
 
   const handleNewMsg = useCallback(
     msg => setMessages(msgs => msgs.concat(msg)), []

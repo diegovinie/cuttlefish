@@ -3,7 +3,7 @@ import playerApi from '@/api/players'
 import { useContextValue } from '@/store'
 
 const Register = props => {
-  const { nickname, onDone } = props
+  const { username, onDone } = props
 
   const [question, setQuestion] = useState('')
   const [secret, setSecret] = useState('')
@@ -22,7 +22,7 @@ const Register = props => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    return playerApi.create({ nickname, question, secret })
+    return playerApi.create({ username, question, secret })
       .then(({data}) => data)
       .then(setUser)
       .finally(onDone)
@@ -34,7 +34,7 @@ const Register = props => {
         <input
           type="text"
           readOnly
-          value={nickname}
+          value={username}
         />
         <input
           type="text"

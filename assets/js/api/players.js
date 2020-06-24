@@ -2,8 +2,8 @@ import { handleResponse } from './functions'
 
 const endpoint = '/api/players'
 
-const lookUp = (nickname, options = {}) =>
-  fetch(`${endpoint}/search?nickname=${nickname}`, options)
+const lookUp = (username, options = {}) =>
+  fetch(`${endpoint}/search?username=${username}`, options)
     .then(handleResponse)
 
 const create = (fields, options = {}) =>
