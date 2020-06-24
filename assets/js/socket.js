@@ -6,9 +6,14 @@
 //
 // Pass the token on params as below. Or remove it
 // from the params if you are not using authentication.
-import {Socket} from "phoenix"
+import {Socket, Presence} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket("/socket", {
+  params: {
+    token: window.userToken,
+    user_id: window.location.search.split('=')[1]
+  }
+})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -56,6 +61,13 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 export let channel = socket.channel("room:lobby", {})
+let presence = new Presence(channel)
+
+presence.onSync(e => {
+  console.log('onSync params', e)
+  presence.list(console.log)
+})
+
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
