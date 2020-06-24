@@ -3,7 +3,7 @@ import Navbar from './components/Navbar.jsx'
 import GameBoard from './components/GameBoard.jsx'
 import ChatBox from './components/ChatBox.jsx'
 import CardDeck from './components/CardDeck.jsx'
-import Notify from './components/Notify.jsx'
+import Notify from './components/Notify'
 import { StoreProvider } from './store'
 import './Main.scss'
 

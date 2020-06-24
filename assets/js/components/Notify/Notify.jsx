@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react'
+import Notification from './Notification.jsx'
 
 const initialState = {
   title: 'dummy',
@@ -29,12 +30,6 @@ const reducer = (state, action) => {
 
 const Context = createContext()
 
-const Provider = ({ children }) => (
-  <Context.Provider value={useReducer(reducer, initialState)}>
-    {children}
-  </Context.Provider>
-)
-
 export const useNotify = () => {
   const [state, dispatch] = useContext(Context)
 
@@ -61,27 +56,12 @@ const Notify = props => {
   const { children } = props
 
   return (
-    <Provider>
+    <Context.Provider value={useReducer(reducer, initialState)}>
       {children}
       <Context.Consumer>
-        {
-          ([state, dispatch]) => {
-            const { title, body, displayed } = state
-
-            return (
-              <div className="notify" style={{  display: displayed ? 'block' : 'none' }}>
-                <div className="notify-cover">
-                  <div className="notify-content">
-                    <div className="notify-content">{title}</div>
-                    <div className="notify-content">{body}</div>
-                  </div>
-                </div>
-              </div>
-            )
-          }
-        }
+        {Notification}
       </Context.Consumer>
-    </Provider>
+    </Context.Provider>
   )
 }
 
