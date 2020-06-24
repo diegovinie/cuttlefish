@@ -27,10 +27,17 @@
     min-height: 300px;
     margin: auto;
     padding: 1rem;
+    pointer-events: all;
+    display: flex;
+    flex-direction: column;
 
     &-title {
       border-bottom: solid 1px var(--light);
       text-align: center;
+    }
+
+    &-body {
+      flex: 1;
     }
   }
 }

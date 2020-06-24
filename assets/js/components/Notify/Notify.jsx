@@ -2,8 +2,9 @@ import React, { createContext, useContext, useReducer } from 'react'
 import Notification from './Notification.jsx'
 
 const initialState = {
-  title: 'dummy',
-  body: 'something',
+  title: '',
+  body: '',
+  noActions: false,
   dispayed: false
 }
 
@@ -11,16 +12,13 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'FIRE':
       return {
-        title: action.title,
-        body: action.body,
+        ...action.options,
         displayed: true
       }
 
     case 'RESET':
       return {
-        title: 'dummy2',
-        body: 'something2',
-        dispayed: false
+        ...initialState
       }
 
     default:
@@ -35,8 +33,7 @@ export const useNotify = () => {
 
   const fire = options => {
     const { title, body } = options
-    console.log('fire!!', title, body);
-    return dispatch({ type: 'FIRE', title, body })
+    return dispatch({  type: 'FIRE', options })
   }
 
   const reset = options => {
@@ -59,7 +56,11 @@ const Notify = props => {
     <Context.Provider value={useReducer(reducer, initialState)}>
       {children}
       <Context.Consumer>
-        {Notification}
+        {
+          ([state, dispatch]) => (
+            <Notification {...state} dispatch={dispatch} />
+          )
+        }
       </Context.Consumer>
     </Context.Provider>
   )

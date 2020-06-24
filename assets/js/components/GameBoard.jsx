@@ -14,7 +14,7 @@ const GameBoard = () => {
 
   const handleToggle = () => displayed
     ? reset()
-    : fire({ title: 'aaaa', body: 'der'})
+    : fire({ title: 'My title!', body: 'testing'})
 
   const handleInput = e => {
     setNickname(e.target.value)
