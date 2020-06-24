@@ -7,6 +7,7 @@ import './ChatBox.scss'
 const ChatBox = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
+  const [users, setUsers] = useState([])
   const [{ user: { nickname: username } }, dispatch] = useContextValue()
 
   const handleNewMsg = useCallback(
@@ -20,6 +21,15 @@ const ChatBox = () => {
 
       const conn = connectToLobby({ username })
       conn.channel.on('new_msg', handleNewMsg)
+
+      conn.presence.onSync(() => {
+        const users = []
+        presence.list((username, payload) => {
+          users.push(username)
+        })
+
+        setUsers(users)
+      })
 
       return conn
     },
@@ -45,21 +55,35 @@ const ChatBox = () => {
         </div>
       ) : (
         <div className="chat-box-content">
-          <ul className="chat-box-content-logs">
-            {messages.map(msg => (
-              <li key={msg.body} className="chat-box-content-logs-message">
-                <div className="username">
-                  U: {msg.username}
-                </div>
-                <div className="time">
-                  T: {msg.created_at}
-                </div>
-                <div className="body">
-                  {msg.body}
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div className="chat-box-content-container">
+            <ul className="chat-box-content-logs">
+              {messages.map(msg => (
+                <li key={msg.body} className="chat-box-content-logs-message">
+                  <div className="username">
+                    U: {msg.username}
+                  </div>
+                  <div className="time">
+                    T: {msg.created_at}
+                  </div>
+                  <div className="body">
+                    {msg.body}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="chat-box-content-users-container">
+              <div>
+                <b>Online:</b>
+              </div>
+              <ul className="chat-box-content-users">
+                {users.map(username => (
+                  <li key={username} className="chat-box-content-users-user">
+                    {username}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           <div className="chat-box-content-input-box">
             <input
               className="chat-box-content-input"

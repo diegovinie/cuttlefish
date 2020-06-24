@@ -16,7 +16,7 @@ defmodule CuttlefishWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket, _connect_info) do
-    {:ok, assign(socket, :user_id, params["user_id"])}
+    {:ok, assign(socket, :username, params["username"])}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

@@ -12,7 +12,7 @@ defmodule CuttlefishWeb.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    {:ok, _} = Presence.track(socket, socket.assigns.user_id, %{
+    {:ok, _} = Presence.track(socket, socket.assigns.username, %{
       online_at: inspect(System.system_time(:second))
     })
 
