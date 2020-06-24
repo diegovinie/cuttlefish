@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { useContextValue } from '@/store'
+import playerApi from '@/api/players'
+import { useNotify } from '@/components/Notify'
 import './GameBoard.scss'
-import playerApi from '../api/players'
-import { useContextValue } from '../store'
-import { useNotify } from './Notify'
 
 const GameBoard = () => {
   const [nickname, setNickname] = useState('')
