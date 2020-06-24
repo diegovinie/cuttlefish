@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
+import Register from './Register.jsx'
 import './GameBoard.scss'
 
 const GameBoard = () => {
@@ -14,7 +15,13 @@ const GameBoard = () => {
 
   const handleToggle = () => displayed
     ? reset()
-    : fire({ title: 'My title!', body: 'testing'})
+    : fireRegistration()
+
+  const fireRegistration = () => fire({
+    title: 'Welcome!',
+    noActions: true,
+    body: <Register nickname={nickname} onDone={reset} />
+  })
 
   const handleInput = e => {
     setNickname(e.target.value)
@@ -27,9 +34,7 @@ const GameBoard = () => {
       .then(({data}) => data)
       .then(user => user || Promise.reject(user))
       .then(setUser)
-      .catch(() => playerApi.create({ nickname }))
-      .then(({data}) => data)
-      .then(setUser)
+      .catch(fireRegistration)
   }
 
   return (
@@ -39,9 +44,6 @@ const GameBoard = () => {
         <input value={nickname} onChange={handleInput} />
         <button type="submit">
           send
-        </button>
-        <button type="button" onClick={handleToggle}>
-          {displayed ? 'close': 'open'}
         </button>
       </form>
     </div>
