@@ -1,53 +1,54 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { parseMsg } from '@/functions'
-import { connectToLobby } from '@/api/socket'
+import game from '@/services/game'
 import { useContextValue } from '@/store'
 import './ChatBox.scss'
 
 const ChatBox = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
-  const [users, setUsers] = useState([])
-  const [{ user: { username } }, dispatch] = useContextValue()
+  const [{ user: { username }, players }, dispatch] = useContextValue()
+
+  const setPlayers = players => dispatch({ type: 'SET_PLAYERS', players })
 
   const handleNewMsg = useCallback(
     msg => setMessages(msgs => msgs.concat(msg)), []
   )
 
-  // detects name changes and connect to socket lobby
-  const { socket, channel, presence } = useMemo(
+  useEffect(
     () => {
-      if (!username) return {}
+      if (username) {
+        if (!game.socket) game.connect({ username })
+        const { presence } = game.joinLobby()
 
-      const conn = connectToLobby({ username })
-      conn.channel.on('new_msg', handleNewMsg)
+        game.onMsg(handleNewMsg)
 
-      conn.presence.onSync(() => {
-        const users = []
-        presence.list((username, payload) => {
-          users.push(username)
+        presence.onSync(() => {
+          const players = []
+          presence.list((username, payload) => {
+            players.push(username)
+          })
+
+          setPlayers(players)
         })
-
-        setUsers(users)
-      })
-
-      return conn
+      }
     },
     [username]
   )
+
+  const connected = useMemo(() => game.info.connected, [game.info.connected])
 
   const handleInput = e => setInput(e.target.value)
 
   const handleKeyPress = e => {
     if (event.key === 'Enter') {
-      channel.push('new_msg', parseMsg({ username, body: input }))
+      game.sendMsg(input)
       setInput('')
     }
   }
 
   return (
     <section className="chat-box">
-      {!channel ? (
+      {!connected ? (
         <div className="chat-box-content">
           <div className="chat-box-content-offline-message">
             Not connected
@@ -76,7 +77,7 @@ const ChatBox = () => {
                 <b>Online:</b>
               </div>
               <ul className="chat-box-content-users">
-                {users.map(username => (
+                {players.map(username => (
                   <li key={username} className="chat-box-content-users-user">
                     {username}
                   </li>
