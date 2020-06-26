@@ -12,8 +12,8 @@ const GameBoard = () => {
   const [boardPlayers, setBoardPlayers] = useState([])
 
   const updateBoardPlayer = player => {
-    const ps = boardPlayers.map(p => p.username === player.username ? player : p)
-    setBoardPlayers(ps)
+    const replacePlayer = ps => ps.map(p => p.username === player.username ? player : p)
+    setBoardPlayers(replacePlayer)
   }
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
@@ -48,7 +48,7 @@ const GameBoard = () => {
 
   const handleJoin = e => {
     const { presence } = ws.joinGame()
-    console.log('43');
+
     presence.onSync(() => {
       const players = []
       presence.list((username, payload) => {
@@ -57,6 +57,7 @@ const GameBoard = () => {
 
       console.log(players)
 
+      ws.onCardPicked(updateBoardPlayer)
       setBoardPlayers(players)
     })
   }
