@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cardSetsApi from '../api/cardSets'
-import game from '@/services/game'
+import ws from '@/services/ws'
 import { log } from '../api/functions'
 import './CardDeck.scss'
 
@@ -14,7 +14,7 @@ const CardDeck = () => {
   )
 
   const handlePickCard = card => e => {
-    game.pickCard(card)
+    ws.pickCard(card)
   }
 
   useEffect(

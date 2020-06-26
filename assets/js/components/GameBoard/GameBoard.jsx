@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
-import game from '@/services/game'
+import ws from '@/services/ws'
 import Register from './Register.jsx'
 import './GameBoard.scss'
 
@@ -20,7 +20,7 @@ const GameBoard = () => {
 
   const { state: { displayed }, fire, reset } = useNotify()
 
-  const connected = useMemo(() => game.info.connected, [game.info.connected])
+  const connected = useMemo(() => ws.info.connected, [ws.info.connected])
 
   const handleToggle = () => displayed
     ? reset()
@@ -47,7 +47,7 @@ const GameBoard = () => {
   }
 
   const handleJoin = e => {
-    const { presence} = game.joinGame()
+    const { presence } = ws.joinGame()
     console.log('43');
     presence.onSync(() => {
       const players = []

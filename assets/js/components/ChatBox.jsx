@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import game from '@/services/game'
+import ws from '@/services/ws'
 import { useContextValue } from '@/store'
 import './ChatBox.scss'
 
@@ -17,10 +17,10 @@ const ChatBox = () => {
   useEffect(
     () => {
       if (username) {
-        if (!game.socket) game.connect({ username })
-        const { presence } = game.joinLobby()
+        if (!ws.socket) ws.connect({ username })
+        const { presence } = ws.joinLobby()
 
-        game.onMsg(handleNewMsg)
+        ws.onMsg(handleNewMsg)
 
         presence.onSync(() => {
           const players = []
@@ -35,13 +35,13 @@ const ChatBox = () => {
     [username]
   )
 
-  const connected = useMemo(() => game.info.connected, [game.info.connected])
+  const connected = useMemo(() => ws.info.connected, [ws.info.connected])
 
   const handleInput = e => setInput(e.target.value)
 
   const handleKeyPress = e => {
     if (event.key === 'Enter') {
-      game.sendMsg(input)
+      ws.sendMsg(input)
       setInput('')
     }
   }
