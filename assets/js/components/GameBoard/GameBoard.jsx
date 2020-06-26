@@ -55,31 +55,24 @@ const GameBoard = () => {
         players.push({ username, value: null })
       })
 
-      console.log(players)
-
       ws.onCardPicked(updateBoardPlayer)
       setBoardPlayers(players)
     })
   }
 
-  // useEffect(
-  //   () => {
-  //     console.log('rerer', game.info.inGame);
-  //     if (game.info.inGame) {
-  //       game.rooms.game.presence.onSync(() => {
-  //         const players = []
-  //         game.rooms.game.presence.list((username, payload) => {
-  //           players.push({ username, value: null })
-  //         })
-  //
-  //         console.log(players)
-  //
-  //         setBoardPlayers(players)
-  //       })
-  //     }
-  //   },
-  //   [game.info.inGame]
-  // )
+  useEffect(
+    () => {
+      const completed = boardPlayers.length && boardPlayers.every(({value}) => value)
+
+      if (completed) {
+        fire({
+          title: 'All done!'
+        })
+      }
+
+    },
+    [boardPlayers]
+  )
 
   return (
     <div className="game-board">
