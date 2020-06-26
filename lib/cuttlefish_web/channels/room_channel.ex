@@ -7,6 +7,11 @@ defmodule CuttlefishWeb.RoomChannel do
     {:ok, socket}
   end
 
+  def join("room:game", _message, socket) do
+    send(self(), :after_join)
+    {:ok, socket}
+  end
+
   def join("room:" <> _private_room_id, _params, socket) do
     {:error, %{error: "unauthorized"}}
   end
@@ -22,6 +27,11 @@ defmodule CuttlefishWeb.RoomChannel do
 
   def handle_in("new_msg", msg, socket) do
     broadcast!(socket, "new_msg", msg)
+    {:noreply, socket}
+  end
+
+  def handle_in("card_picked", msg, socket) do
+    broadcast!(socket, "card_picked", msg)
     {:noreply, socket}
   end
 end
