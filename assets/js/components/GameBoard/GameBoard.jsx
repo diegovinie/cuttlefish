@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
+import game from '@/services/game'
 import Register from './Register.jsx'
 import './GameBoard.scss'
 
 const GameBoard = () => {
   const [username, setUsername] = useState('')
-  const [{ user }, dispatch] = useContextValue()
+  const [{ user, players }, dispatch] = useContextValue()
+  const [boardPlayers, setBoardPlayers] = useState([])
+
+  const updateBoardPlayer = player => {
+    const ps = boardPlayers.map(p => p.username === player.username ? player : p)
+    setBoardPlayers(ps)
+  }
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
 
   const { state: { displayed }, fire, reset } = useNotify()
+
+  const connected = useMemo(() => game.info.connected, [game.info.connected])
 
   const handleToggle = () => displayed
     ? reset()
@@ -37,6 +46,40 @@ const GameBoard = () => {
       .catch(fireRegistration)
   }
 
+  const handleJoin = e => {
+    const { presence} = game.joinGame()
+    console.log('43');
+    presence.onSync(() => {
+      const players = []
+      presence.list((username, payload) => {
+        players.push({ username, value: null })
+      })
+
+      console.log(players)
+
+      setBoardPlayers(players)
+    })
+  }
+
+  // useEffect(
+  //   () => {
+  //     console.log('rerer', game.info.inGame);
+  //     if (game.info.inGame) {
+  //       game.rooms.game.presence.onSync(() => {
+  //         const players = []
+  //         game.rooms.game.presence.list((username, payload) => {
+  //           players.push({ username, value: null })
+  //         })
+  //
+  //         console.log(players)
+  //
+  //         setBoardPlayers(players)
+  //       })
+  //     }
+  //   },
+  //   [game.info.inGame]
+  // )
+
   return (
     <div className="game-board">
       <div className="game-board-content">board {user.username}</div>
@@ -46,6 +89,26 @@ const GameBoard = () => {
           send
         </button>
       </form>
+      {connected && (
+        <button type="button" onClick={handleJoin}>
+          join
+        </button>
+      )}
+      <div className="game-board-game">
+        <div className="game-board-game-title">Game</div>
+        <div className="game-board-game-players">
+          {boardPlayers.map(player => (
+            <div key={player.username} className="game-board-game-players-player">
+              <div>
+                {player.username}
+              </div>
+              <div>
+                {player.value}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

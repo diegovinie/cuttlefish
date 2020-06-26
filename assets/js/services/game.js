@@ -5,8 +5,13 @@ let socket
 const rooms = {}
 const info = {
   connected: false,
-  username: null
+  username: null,
+  inGame: false
 }
+
+const addJoinListeners = (name, chn) => chn.join()
+    .receive('ok', resp => { console.log(`${name}: Joined successfully`, resp) })
+    .receive('error', resp => { console.log(`${name}: Unable to join`, resp) })
 
 const connect = ({ username }) => {
   socket = new Socket('/socket', { params: { username } })
@@ -23,9 +28,7 @@ const joinLobby = () => {
   const channel = socket.channel('room:lobby', {})
   const presence = new Presence(channel)
 
-  channel.join()
-    .receive('ok', resp => { console.log('Joined successfully', resp) })
-    .receive('error', resp => { console.log('Unable to join', resp) })
+  addJoinListeners('lobby', channel)
 
   rooms.lobby = { channel, presence }
 
@@ -38,9 +41,21 @@ const sendMsg = msg => {
   }))
 }
 
-const pickCard = ({ username, value }) => {
+const joinGame = () => {
+  const channel = socket.channel('room:game', {})
+  const presence = new Presence(channel)
+
+  addJoinListeners('game', channel)
+
+  rooms.game = { channel, presence }
+  info.inGame = true
+
+  return { channel, presence }
+}
+
+const pickCard = value => {
   rooms.game?.channel?.push('card_picked', {
-    username: info.usernames, value
+    username: info.username, value
   })
 }
 
@@ -53,9 +68,10 @@ export default {
   socket,
   rooms,
   info,
-  
+
   connect,
   joinLobby,
+  joinGame,
   sendMsg,
   pickCard,
   onMsg,

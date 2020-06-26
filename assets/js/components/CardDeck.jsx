@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cardSetsApi from '../api/cardSets'
+import game from '@/services/game'
 import { log } from '../api/functions'
 import './CardDeck.scss'
 
@@ -12,13 +13,16 @@ const CardDeck = () => {
     [cardSets, selected]
   )
 
+  const handlePickCard = card => e => {
+    game.pickCard(card)
+  }
+
   useEffect(
     () => {
       cardSetsApi.getAll()
         .then(res => res.data)
         .then(log)
         .then(setCardSets)
-        // .then(sets => sets.length && setCurrent(sets[0]))
     },
     []
   )
@@ -32,7 +36,9 @@ const CardDeck = () => {
         <ul className="card-deck-content-list">
           {current.content?.map(card => (
             <li key={`card-${card}`} className="card-deck-content-list-card">
-              {card}
+              <button type="button" onClick={handlePickCard(card)}>
+                {card}
+              </button>
             </li>
           ))}
         </ul>
