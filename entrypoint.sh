@@ -12,10 +12,10 @@ done
 if [[ -z `psql -U $PGUSER -Atqc "\\list $PGDATABASE"` ]]; then
   echo "Database $PGDATABASE does not exist. Creating..."
   createdb -E UTF8 $PGDATABASE -l en_US.UTF-8 -T template0 -U $PGUSER
-  # mix ecto.migrate
-  # mix run priv/repo/seeds.exs
+  mix ecto.migrate
+  mix run priv/repo/seeds.exs
   echo "Database $PGDATABASE created."
 fi
 
-# exec mix phx.server
-echo "done!"
+# echo "done!"
+exec mix phx.server

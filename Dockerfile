@@ -10,14 +10,14 @@ WORKDIR /app
 
   
 # Install hex manager
-# RUN mix local.hex --force
+RUN mix local.hex --force
 
-# RUN mix deps.get --force
-# RUN mix local.rebar --force
+RUN mix deps.get --force
+RUN mix local.rebar --force
 
 # Compile
-# RUN mix do compile
+RUN mix do compile
 
-RUN chmod +x entrypoint.sh
+# RUN chmod +x entrypoint.sh
 
 CMD ["/app/entrypoint.sh"]
