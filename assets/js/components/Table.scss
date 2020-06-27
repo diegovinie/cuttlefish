@@ -1,0 +1,81 @@
+.d-table {
+  margin: auto;
+
+  &-content {
+    display: flex;
+    margin: auto;
+    position: relative;
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    border: solid 2px var(--primary);
+    border-radius: 50%;
+    transition: ease 1s;
+    background-color: var(--primary);
+    color: var(--dark);
+
+    &-status {
+      margin: auto;
+    }
+
+    &-player {
+      position: absolute;
+      top: 240px;
+      left: 4rem;
+      transform-origin: 200px 1rem;
+      transition: ease 1s;
+
+      & > .card {
+        background-color: #FFF;
+        width: 4rem;
+        height: 6rem;
+        transform: rotateZ(90deg);
+        transition: ease 1s;
+        display: flex;
+
+        & > .value {
+          margin: auto;
+          text-decoration: underline;
+        }
+      }
+
+      & > .name {
+        // transform-origin: 10px 30px;
+        transition: ease 1s;
+
+      }
+
+      // & > .value {
+      //   margin: auto;
+      // }
+    }
+
+    &.standby &-player {
+      // position: static;
+      top: 0;
+      left: 0;
+      transform: rotateZ(0deg) !important;
+      float: left;
+      margin-right: 2rem;
+
+      & > .card {
+        transform: rotateZ(0deg) !important;
+      }
+
+      & > .name {
+        transform: rotateZ(0deg) !important;
+      }
+    }
+
+    &.ended &-player {
+      & > .card {
+        margin-top: 3rem;
+        transform: rotateZ(0deg) !important;
+      }
+
+      & > .name {
+        transform: rotateZ(0deg) !important;
+      }
+    }
+  }
+}

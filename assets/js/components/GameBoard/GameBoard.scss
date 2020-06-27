@@ -3,6 +3,30 @@
   flex: 1;
 
   &-content {
+    position: relative;
     margin: auto;
+    width: 300px;
+    height: 300px;
+    border: solid 2px var(--primary);
+    border-radius: 50%;
+
+    & .box {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform-origin: 150px 0;
+
+      &.a {
+        transform: rotateZ(30deg);
+      }
+
+      &.b {
+        transform: rotateZ(60deg);
+      }
+
+      &.c {
+        transform: rotateZ(90deg);
+      }
+    }
   }
 }

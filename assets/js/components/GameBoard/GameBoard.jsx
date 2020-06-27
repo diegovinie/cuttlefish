@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
+import Table from '@/components/Table.jsx'
 import ws from '@/services/ws'
 import './GameBoard.scss'
 
@@ -48,7 +49,7 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
-      <div className="game-board-content">board {user.username}</div>
+      <Table players={['maria', 'pedro', 'jose', 'maria', 'pedro', 'jose']} />
       {connected && (
         <button type="button" className="button is-primary" onClick={handleJoin}>
           join
