@@ -36,7 +36,10 @@ const CardDeck = () => {
         <ul className="card-deck-content-list">
           {current.content?.map(card => (
             <li key={`card-${card}`} className="card-deck-content-list-card">
-              <button type="button" onClick={handlePickCard(card)}>
+              <button
+                type="button"
+                className="button is-size-3 has-text-dark"
+                onClick={handlePickCard(card)}>
                 {card}
               </button>
             </li>
