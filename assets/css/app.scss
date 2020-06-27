@@ -1,7 +1,15 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
+// @import "./phoenix.css";
 @import 'variables';
+@import 'bulma/bulma.sass';
+
+:root {
+  --primary: #{$primary};
+  --dark: #{$dark};
+  --light: #{$light};
+  --link: #{$link};
+}
 
 html {
   font-size: $font-size;

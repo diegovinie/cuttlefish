@@ -22,7 +22,7 @@
         background-color: #FFFFFF;
         color: var(--dark);
         padding: 0.5rem 1rem;
-        border-left: solid 1px var(--secondary);
+        border-left: solid 1px var(--light);
       }
 
       &-user {
@@ -46,7 +46,7 @@
         padding: 0.5rem;
 
         & .username, & .time {
-          color: var(--secondary);
+          color: var(--light);
         }
       }
     }
