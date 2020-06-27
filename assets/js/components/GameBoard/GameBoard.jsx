@@ -49,7 +49,7 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
-      <Table players={['maria', 'pedro', 'jose', 'maria', 'pedro', 'jose']} />
+      <Table players={boardPlayers} />
       {connected && (
         <button type="button" className="button is-primary" onClick={handleJoin}>
           join

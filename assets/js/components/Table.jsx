@@ -38,17 +38,24 @@ const Table = props => {
         </div>
         {mappedPositions.map(p => (
           <div
-            key={p.pos + p.angle + p.player}
+            key={p.pos + p.angle + p.player.username}
             className="d-table-content-player"
             style={{ transform: getPosition(p.pos) }}
           >
             <div className="card">
+              <div className="reverse">
+                <span>
+                  {p.player.value ? 'v' : 'x'}
+                </span>
+              </div>
               <div className="value">
-                {p.ang}
+                <span>
+                  {p.player.value}
+                </span>
               </div>
             </div>
             <div style={{ transform: `rotateZ(-${p.pos}deg)` }} className="name">
-              {p.player}
+              {p.player.username}
             </div>
           </div>
         ))}
