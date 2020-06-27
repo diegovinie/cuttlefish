@@ -1,7 +1,20 @@
 import React from 'react'
+import { useNotify } from '@/components/Notify'
 import './Navbar.scss'
+import { useContextValue } from '@/store'
+import Login from '@/components/Login.jsx'
 
 const Navbar = () => {
+  const [{ user }, dispatch] = useContextValue()
+  const { state: { displayed }, fire, reset } = useNotify()
+
+  const handleLogin = () => {
+    fire({
+      title: 'Login',
+      noActions: true,
+      body: <Login onDone={reset} />
+    })
+  }
 
   return (
     <div className="navbar">
@@ -20,8 +33,8 @@ const Navbar = () => {
               <a>About</a>
             </p>
             <p className="level-item">
-              <button className="button is-primary">
-                Login
+              <button onClick={handleLogin} className="button is-primary">
+                {user.username || 'Login'}
               </button>
             </p>
           </div>

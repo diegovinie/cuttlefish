@@ -3,11 +3,9 @@ import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
 import ws from '@/services/ws'
-import Register from './Register.jsx'
 import './GameBoard.scss'
 
 const GameBoard = () => {
-  const [username, setUsername] = useState('')
   const [{ user, players }, dispatch] = useContextValue()
   const [boardPlayers, setBoardPlayers] = useState([])
 
@@ -16,35 +14,9 @@ const GameBoard = () => {
     setBoardPlayers(replacePlayer)
   }
 
-  const setUser = user => dispatch({ type: 'SET_USER', user })
-
   const { state: { displayed }, fire, reset } = useNotify()
 
   const connected = useMemo(() => ws.info.connected, [ws.info.connected])
-
-  const handleToggle = () => displayed
-    ? reset()
-    : fireRegistration()
-
-  const fireRegistration = () => fire({
-    title: 'Welcome!',
-    noActions: true,
-    body: <Register username={username} onDone={reset} />
-  })
-
-  const handleInput = e => {
-    setUsername(e.target.value)
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-
-    playerApi.lookUp(username)
-      .then(({data}) => data)
-      .then(user => user || Promise.reject(user))
-      .then(setUser)
-      .catch(fireRegistration)
-  }
 
   const handleJoin = e => {
     const { presence } = ws.joinGame()
@@ -77,14 +49,8 @@ const GameBoard = () => {
   return (
     <div className="game-board">
       <div className="game-board-content">board {user.username}</div>
-      <form onSubmit={handleSubmit} className="game-board-content">
-        <input value={username} onChange={handleInput} />
-        <button type="submit">
-          send
-        </button>
-      </form>
       {connected && (
-        <button type="button" onClick={handleJoin}>
+        <button type="button" className="button is-primary" onClick={handleJoin}>
           join
         </button>
       )}
