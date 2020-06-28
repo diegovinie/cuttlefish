@@ -30,27 +30,38 @@ const Register = props => {
 
   return (
     <form onSubmit={handleSubmit} className="register">
-      <div className="register">
-        <input
-          type="text"
-          readOnly
-          value={username}
-        />
-        <input
-          type="text"
-          value={question}
-          placeholder="This will asked if you set it"
-          onChange={handleQuestionInput}
-        />
-        <input
-          type="password"
-          placeholder="The answer for your question"
-          value={secret}
-          onChange={handleSecretInput}
-        />
+      <div className="register control">
+        <div className="control mb-3">
+          <input
+            type="text"
+            className="input"
+            readOnly
+            value={username}
+          />
+        </div>
+        <div className="control mb-3">
+          <input
+            type="text"
+            className="input"
+            value={question}
+            placeholder="This will asked if you set it"
+            onChange={handleQuestionInput}
+          />
+        </div>
+        <div className="control mb-3">
+          <input
+            type="password"
+            className="input"
+            placeholder="The answer for your question"
+            value={secret}
+            onChange={handleSecretInput}
+          />
+        </div>
       </div>
       <div className="register">
-        <button type="submit">Send</button>
+        <button className="button is-primary" type="submit">
+          Send
+        </button>
       </div>
     </form>
   )

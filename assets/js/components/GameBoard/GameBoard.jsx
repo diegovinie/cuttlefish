@@ -2,49 +2,24 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
+import Table from '@/components/Table.jsx'
 import ws from '@/services/ws'
-import Register from './Register.jsx'
 import './GameBoard.scss'
 
 const GameBoard = () => {
-  const [username, setUsername] = useState('')
-  const [{ user, players }, dispatch] = useContextValue()
+  const [{ user, players, status }, dispatch] = useContextValue()
   const [boardPlayers, setBoardPlayers] = useState([])
+
+  const setStatus = status => dispatch({ type: 'SET_STATUS', status })
 
   const updateBoardPlayer = player => {
     const replacePlayer = ps => ps.map(p => p.username === player.username ? player : p)
     setBoardPlayers(replacePlayer)
   }
 
-  const setUser = user => dispatch({ type: 'SET_USER', user })
-
   const { state: { displayed }, fire, reset } = useNotify()
 
   const connected = useMemo(() => ws.info.connected, [ws.info.connected])
-
-  const handleToggle = () => displayed
-    ? reset()
-    : fireRegistration()
-
-  const fireRegistration = () => fire({
-    title: 'Welcome!',
-    noActions: true,
-    body: <Register username={username} onDone={reset} />
-  })
-
-  const handleInput = e => {
-    setUsername(e.target.value)
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-
-    playerApi.lookUp(username)
-      .then(({data}) => data)
-      .then(user => user || Promise.reject(user))
-      .then(setUser)
-      .catch(fireRegistration)
-  }
 
   const handleJoin = e => {
     const { presence } = ws.joinGame()
@@ -56,8 +31,21 @@ const GameBoard = () => {
       })
 
       ws.onCardPicked(updateBoardPlayer)
+      ws.onStarted(() => setStatus('started'))
+      ws.onRestarted(() => setStatus('standby'))
+      ws.onEnded(() => setStatus('ended'))
+      
       setBoardPlayers(players)
     })
+  }
+
+  const handleStart = () => {
+    // setStatus('started')
+    ws.startGame()
+  }
+
+  const handleGather = () => {
+    setStatus('standby')
   }
 
   useEffect(
@@ -65,9 +53,10 @@ const GameBoard = () => {
       const completed = boardPlayers.length && boardPlayers.every(({value}) => value)
 
       if (completed) {
-        fire({
-          title: 'All done!'
-        })
+        ws.endGame()
+        // fire({
+        //   title: 'All done!'
+        // })
       }
 
     },
@@ -76,18 +65,29 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
-      <div className="game-board-content">board {user.username}</div>
-      <form onSubmit={handleSubmit} className="game-board-content">
-        <input value={username} onChange={handleInput} />
-        <button type="submit">
-          send
-        </button>
-      </form>
+      <Table
+        players={boardPlayers}
+        status={status}
+        onStart={handleStart}
+        />
       {connected && (
-        <button type="button" onClick={handleJoin}>
+        <button type="button" className="button is-primary" onClick={handleJoin}>
           join
         </button>
       )}
+
+      {status === 'standby' && (
+        <button type="button" className="button is-primary" onClick={handleStart}>
+          start
+        </button>
+      )}
+
+      {status === 'ended' && (
+        <button type="button" className="button is-primary" onClick={handleGather}>
+          back
+        </button>
+      )}
+
       <div className="game-board-game">
         <div className="game-board-game-title">Game</div>
         <div className="game-board-game-players">

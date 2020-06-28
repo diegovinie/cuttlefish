@@ -1,0 +1,121 @@
+$transition: ease 1s;
+$reverse-bg: var(--light);
+
+.d-table {
+  margin: auto;
+
+  &-content {
+    display: flex;
+    margin: auto;
+    position: relative;
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    border: solid 2px var(--primary);
+    border-radius: 50%;
+    transition: $transition;
+    background-color: var(--primary);
+    color: var(--dark);
+
+    &-status {
+      margin: auto;
+    }
+
+    &-player {
+      position: absolute;
+      top: 240px;
+      left: 4rem;
+      transform-origin: 200px 1rem;
+      transition: $transition;
+
+      & > .card {
+        background-color: #FFF;
+        width: 4rem;
+        height: 6rem;
+        transform: rotateZ(90deg) rotateY(180deg);
+        transition: $transition;
+        display: flex;
+        position: relative;
+
+        & > .reverse {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          background: $reverse-bg;
+          transition: $transition;
+          transform-origin: 100% 0;
+          display: flex;
+          
+          & > span {
+            margin: auto;
+          }
+        }
+
+        & > .value {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          margin: auto;
+          text-decoration: underline;
+          display: flex;
+
+          & > span {
+            margin: auto;
+            font-size: 115%;
+            font-weight: bold;
+          }
+        }
+      }
+
+      & > .name {
+        // transform-origin: 10px 30px;
+        transition: $transition;
+
+      }
+    }
+
+    &.standby &-player {
+      // position: static;
+      top: 0;
+      left: 0;
+      transform: rotateZ(0deg) !important;
+      float: left;
+      margin-right: 2rem;
+
+      & > .card {
+        transform: translate(80px, 80px) rotateZ(0deg) rotateY(180deg) !important;
+      }
+
+      & > .name {
+        transform: rotateZ(0deg) !important;
+        opacity: 0;
+      }
+    }
+
+    &.started &-player {
+      & > .card {
+        transform: rotateZ(90deg) rotateY(180deg);
+      }
+    }
+
+    &.ended &-player {
+      & > .card {
+        margin-top: 3rem;
+        transform: rotateZ(0deg) rotateY(0deg) !important;
+        & > .reverse {
+          transform: rotateY(-90deg);
+
+        }
+      }
+
+      & > .name {
+        transform: rotateZ(0deg) !important;
+      }
+    }
+  }
+}
