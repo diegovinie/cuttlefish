@@ -27,5 +27,6 @@ defmodule CuttlefishWeb.Router do
     resources "/players", PlayerController
 
     resources "/cardsets", CardSetController
+    resources "/matches", MatchController, except: [:new, :edit]
   end
 end
