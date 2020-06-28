@@ -12,3 +12,8 @@ mix phx.gen.json Game CardSet cardsets name:string content:string notes:string
 mix phx.gen.presence
 
 mix phx.gen.json Game Match matches name:string avg:decimal sd:decimal status_id:integer
+
+mix phx.gen.context Game Contender contenders \
+  player_id:references:players \
+  match_id:references:matches \
+  value:integer

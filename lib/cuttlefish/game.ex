@@ -197,4 +197,100 @@ defmodule Cuttlefish.Game do
   def change_match(%Match{} = match) do
     Match.changeset(match, %{})
   end
+
+  alias Cuttlefish.Game.Contender
+
+  @doc """
+  Returns the list of contenders.
+
+  ## Examples
+
+      iex> list_contenders()
+      [%Contender{}, ...]
+
+  """
+  def list_contenders do
+    Repo.all(Contender)
+  end
+
+  @doc """
+  Gets a single contender.
+
+  Raises `Ecto.NoResultsError` if the Contender does not exist.
+
+  ## Examples
+
+      iex> get_contender!(123)
+      %Contender{}
+
+      iex> get_contender!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_contender!(id), do: Repo.get!(Contender, id)
+
+  @doc """
+  Creates a contender.
+
+  ## Examples
+
+      iex> create_contender(%{field: value})
+      {:ok, %Contender{}}
+
+      iex> create_contender(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_contender(attrs \\ %{}) do
+    %Contender{}
+    |> Contender.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a contender.
+
+  ## Examples
+
+      iex> update_contender(contender, %{field: new_value})
+      {:ok, %Contender{}}
+
+      iex> update_contender(contender, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_contender(%Contender{} = contender, attrs) do
+    contender
+    |> Contender.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a contender.
+
+  ## Examples
+
+      iex> delete_contender(contender)
+      {:ok, %Contender{}}
+
+      iex> delete_contender(contender)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_contender(%Contender{} = contender) do
+    Repo.delete(contender)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking contender changes.
+
+  ## Examples
+
+      iex> change_contender(contender)
+      %Ecto.Changeset{source: %Contender{}}
+
+  """
+  def change_contender(%Contender{} = contender) do
+    Contender.changeset(contender, %{})
+  end
 end

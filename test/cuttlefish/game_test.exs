@@ -130,4 +130,63 @@ defmodule Cuttlefish.GameTest do
       assert %Ecto.Changeset{} = Game.change_match(match)
     end
   end
+
+  describe "contenders" do
+    alias Cuttlefish.Game.Contender
+
+    @valid_attrs %{value: 42}
+    @update_attrs %{value: 43}
+    @invalid_attrs %{value: nil}
+
+    def contender_fixture(attrs \\ %{}) do
+      {:ok, contender} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Game.create_contender()
+
+      contender
+    end
+
+    test "list_contenders/0 returns all contenders" do
+      contender = contender_fixture()
+      assert Game.list_contenders() == [contender]
+    end
+
+    test "get_contender!/1 returns the contender with given id" do
+      contender = contender_fixture()
+      assert Game.get_contender!(contender.id) == contender
+    end
+
+    test "create_contender/1 with valid data creates a contender" do
+      assert {:ok, %Contender{} = contender} = Game.create_contender(@valid_attrs)
+      assert contender.value == 42
+    end
+
+    test "create_contender/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Game.create_contender(@invalid_attrs)
+    end
+
+    test "update_contender/2 with valid data updates the contender" do
+      contender = contender_fixture()
+      assert {:ok, %Contender{} = contender} = Game.update_contender(contender, @update_attrs)
+      assert contender.value == 43
+    end
+
+    test "update_contender/2 with invalid data returns error changeset" do
+      contender = contender_fixture()
+      assert {:error, %Ecto.Changeset{}} = Game.update_contender(contender, @invalid_attrs)
+      assert contender == Game.get_contender!(contender.id)
+    end
+
+    test "delete_contender/1 deletes the contender" do
+      contender = contender_fixture()
+      assert {:ok, %Contender{}} = Game.delete_contender(contender)
+      assert_raise Ecto.NoResultsError, fn -> Game.get_contender!(contender.id) end
+    end
+
+    test "change_contender/1 returns a contender changeset" do
+      contender = contender_fixture()
+      assert %Ecto.Changeset{} = Game.change_contender(contender)
+    end
+  end
 end
