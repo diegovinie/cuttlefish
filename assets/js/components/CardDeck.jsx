@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import cardSetsApi from '../api/cardSets'
 import ws from '@/services/ws'
+import { useContextValue } from '@/store'
 import { log } from '../api/functions'
 import './CardDeck.scss'
 
@@ -8,13 +9,15 @@ const CardDeck = () => {
   const [cardSets, setCardSets] = useState([])
   const [selected, setSelected] = useState(0)
 
+  const [{ matchId }, dispatch] = useContextValue()
+
   const current = useMemo(
     () => cardSets.length > 0 ? cardSets[selected] : ({ }),
     [cardSets, selected]
   )
 
   const handlePickCard = card => e => {
-    ws.pickCard(card)
+    ws.pickCard(matchId, card)
   }
 
   useEffect(

@@ -53,9 +53,11 @@ const joinGame = () => {
   return { channel, presence }
 }
 
-const pickCard = value => {
+const pickCard = (matchId, value) => {
   rooms.game?.channel?.push('card_picked', {
-    username: info.username, value
+    username: info.username,
+    match_id: matchId,
+    value
   })
 }
 

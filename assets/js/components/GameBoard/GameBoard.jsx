@@ -21,6 +21,12 @@ const GameBoard = () => {
 
   const connected = useMemo(() => ws.info.connected, [ws.info.connected])
 
+  const handleGameStarted = msg => {
+    console.log(msg)
+    dispatch({ type: 'SET_MATCH_ID', matchId: msg.match_id })
+    setStatus('started')
+  }
+
   const handleJoin = e => {
     const { presence } = ws.joinGame()
 
@@ -31,10 +37,10 @@ const GameBoard = () => {
       })
 
       ws.onCardPicked(updateBoardPlayer)
-      ws.onStarted(() => setStatus('started'))
+      ws.onStarted(handleGameStarted)
       ws.onRestarted(() => setStatus('standby'))
       ws.onEnded(() => setStatus('ended'))
-      
+
       setBoardPlayers(players)
     })
   }

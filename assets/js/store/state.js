@@ -4,7 +4,8 @@ export const initialState = {
   },
   players: [],
   // standby | started | ended
-  status: 'standby'
+  status: 'standby',
+  matchid: null,
 }
 
 export const reducer = (state, action) => {
@@ -25,6 +26,12 @@ export const reducer = (state, action) => {
       return {
         ...state,
         status: action.status
+      }
+
+    case 'SET_MATCH_ID':
+      return {
+        ...state,
+        matchId: action.matchId
       }
 
     default:
