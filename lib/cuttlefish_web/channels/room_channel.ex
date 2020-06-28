@@ -1,6 +1,8 @@
 defmodule CuttlefishWeb.RoomChannel do
   use Phoenix.Channel
   alias CuttlefishWeb.Presence
+  alias Cuttlefish.Game
+
   @valid_status ["game_started", "game_ended", "game_restarted"]
 
   def join("room:lobby", _message, socket) do
@@ -37,7 +39,14 @@ defmodule CuttlefishWeb.RoomChannel do
   end
 
   def handle_in(status, msg, socket) when status in @valid_status do
-    broadcast!(socket, status, msg)
+    case status == "game_started" do
+      true ->
+        {:ok, match} = Game.create_match(%{name: "testing"})
+        broadcast!(socket, status, Map.put(msg, "match_id", match.id))
+
+      false -> broadcast!(socket, status, msg)
+    end
+
     {:noreply, socket}
   end
 end
