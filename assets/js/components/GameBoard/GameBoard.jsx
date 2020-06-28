@@ -7,8 +7,10 @@ import ws from '@/services/ws'
 import './GameBoard.scss'
 
 const GameBoard = () => {
-  const [{ user, players }, dispatch] = useContextValue()
+  const [{ user, players, status }, dispatch] = useContextValue()
   const [boardPlayers, setBoardPlayers] = useState([])
+
+  const setStatus = status => dispatch({ type: 'SET_STATUS', status })
 
   const updateBoardPlayer = player => {
     const replacePlayer = ps => ps.map(p => p.username === player.username ? player : p)
@@ -33,14 +35,24 @@ const GameBoard = () => {
     })
   }
 
+  const handleStart = () => {
+    setStatus('started')
+  }
+
+  const handleGather = () => {
+    setStatus('standby')
+  }
+
   useEffect(
     () => {
       const completed = boardPlayers.length && boardPlayers.every(({value}) => value)
 
       if (completed) {
-        fire({
-          title: 'All done!'
-        })
+        setStatus('ended')
+
+        // fire({
+        //   title: 'All done!'
+        // })
       }
 
     },
@@ -49,12 +61,29 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
-      <Table players={boardPlayers} />
+      <Table
+        players={boardPlayers}
+        status={status}
+        onStart={handleStart}
+        />
       {connected && (
         <button type="button" className="button is-primary" onClick={handleJoin}>
           join
         </button>
       )}
+
+      {status === 'standby' && (
+        <button type="button" className="button is-primary" onClick={handleStart}>
+          start
+        </button>
+      )}
+
+      {status === 'ended' && (
+        <button type="button" className="button is-primary" onClick={handleGather}>
+          back
+        </button>
+      )}
+
       <div className="game-board-game">
         <div className="game-board-game-title">Game</div>
         <div className="game-board-game-players">

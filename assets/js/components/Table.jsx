@@ -2,10 +2,10 @@ import React, { useMemo, useCallback, useState } from 'react'
 import './Table.scss'
 
 const Table = props => {
-  const { players } = props
+  const { players, status, onStart } = props
 
   // standby | started | ended
-  const [status, setStatus] = useState('standby')
+  // const [status, setStatus] = useState('standby')
 
   const mappedPositions = useMemo(
     () => !players.length ? [] : players.map((player, index, ps) => ({
@@ -24,10 +24,14 @@ const Table = props => {
   }
 
   const toggleStatus = () => {
-    setStatus(st => st === 'standby' ? 'started'
-      : st === 'started' ? 'ended'
-        : 'standby'
-    )
+    // setStatus(st => st === 'standby' ? 'started'
+    //   : st === 'started' ? 'ended'
+    //     : 'standby'
+    // )
+  }
+
+  const handleCardClick = () => {
+    onStart()
   }
 
   return (
@@ -40,6 +44,7 @@ const Table = props => {
           <div
             key={p.pos + p.angle + p.player.username}
             className="d-table-content-player"
+            onClick={handleCardClick}
             style={{ transform: getPosition(p.pos) }}
           >
             <div className="card">

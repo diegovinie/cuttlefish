@@ -2,7 +2,9 @@ export const initialState = {
   user: {
 
   },
-  players: []
+  players: [],
+  // standby | started | ended
+  status: 'standby'
 }
 
 export const reducer = (state, action) => {
@@ -17,6 +19,12 @@ export const reducer = (state, action) => {
       return {
         ...state,
         players: action.players
+      }
+
+    case 'SET_STATUS':
+      return {
+        ...state,
+        status: action.status
       }
 
     default:
