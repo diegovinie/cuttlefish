@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useNotify } from '@/components/Notify'
-import './Navbar.scss'
+import playerApi from '@/api/players'
 import { useContextValue } from '@/store'
 import Login from '@/components/Login.jsx'
+import './Navbar.scss'
 
 const Navbar = () => {
   const [{ user }, dispatch] = useContextValue()
   const { state: { displayed }, fire, reset } = useNotify()
+
+  const location = useLocation()
+
+  const setUser = user => dispatch({ type: 'SET_USER', user })
+
+  const checkUsername = useCallback(
+    () => {
+      const username = location.search.replace(/^.*username=(\w+)&?$/, '$1')
+
+      if (!username) return
+
+      return playerApi.lookUp(username)
+        .then(({data}) => data)
+        .then(user => user || Promise.reject(user))
+        .then(setUser)
+
+    },
+    [location.search]
+  )
 
   const handleLogin = () => {
     fire({
@@ -15,6 +36,12 @@ const Navbar = () => {
       body: <Login onDone={reset} />
     })
   }
+
+  useEffect(
+    () => {
+      checkUsername()
+    }
+  )
 
   return (
     <div className="navbar">

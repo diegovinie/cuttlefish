@@ -1,4 +1,5 @@
 import React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import GameBoard from './components/GameBoard'
 import ChatBox from './components/ChatBox.jsx'
@@ -12,14 +13,16 @@ const Main = () => {
   return (
     <StoreProvider>
       <Notify>
-        <div className="main">
-          <Navbar />
-          <article className="main-content">
-            <GameBoard />
-            <ChatBox />
-          </article>
-          <CardDeck />
-        </div>
+        <Router>
+          <div className="main">
+            <Navbar />
+            <article className="main-content">
+              <GameBoard />
+              <ChatBox />
+            </article>
+            <CardDeck />
+          </div>
+        </Router>
       </Notify>
     </StoreProvider>
   )
