@@ -31,12 +31,17 @@ const GameBoard = () => {
       })
 
       ws.onCardPicked(updateBoardPlayer)
+      ws.onStarted(() => setStatus('started'))
+      ws.onRestarted(() => setStatus('standby'))
+      ws.onEnded(() => setStatus('ended'))
+      
       setBoardPlayers(players)
     })
   }
 
   const handleStart = () => {
-    setStatus('started')
+    // setStatus('started')
+    ws.startGame()
   }
 
   const handleGather = () => {
@@ -48,8 +53,7 @@ const GameBoard = () => {
       const completed = boardPlayers.length && boardPlayers.every(({value}) => value)
 
       if (completed) {
-        setStatus('ended')
-
+        ws.endGame()
         // fire({
         //   title: 'All done!'
         // })

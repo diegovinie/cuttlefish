@@ -63,6 +63,29 @@ const onMsg = callback => rooms.lobby?.channel?.on('new_msg', callback)
 
 const onCardPicked = callback => rooms.game?.channel?.on('card_picked', callback)
 
+const startGame = () => {
+  rooms.game?.channel?.push('game_started', {
+    username: info.username
+  })
+}
+
+const restartGame = () => {
+  rooms.game?.channel?.push('game_restarted', {
+    username: info.username
+  })
+}
+
+const endGame = () => {
+  rooms.game?.channel?.push('game_ended', {
+    username: info.username
+  })
+}
+
+const onRestarted = callback => rooms.game?.channel?.on('game_restarted', callback)
+
+const onStarted = callback => rooms.game?.channel?.on('game_started', callback)
+
+const onEnded = callback => rooms.game?.channel?.on('game_ended', callback)
 
 export default {
   socket,
@@ -73,7 +96,13 @@ export default {
   joinLobby,
   joinGame,
   sendMsg,
+  startGame,
+  restartGame,
+  endGame,
   pickCard,
   onMsg,
-  onCardPicked
+  onCardPicked,
+  onStarted,
+  onRestarted,
+  onEnded,
 }
