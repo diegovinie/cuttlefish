@@ -7,6 +7,7 @@ defmodule Cuttlefish.Game do
   alias Cuttlefish.Repo
 
   alias Cuttlefish.Game.CardSet
+  alias Cuttlefish.Auth.Player
 
   @doc """
   Returns the list of cardsets.
@@ -114,7 +115,9 @@ defmodule Cuttlefish.Game do
 
   """
   def list_matches do
-    Repo.all(Match)
+    Match
+    |> Repo.all()
+    |> Repo.preload(:contenders)
   end
 
   @doc """
@@ -131,7 +134,7 @@ defmodule Cuttlefish.Game do
       ** (Ecto.NoResultsError)
 
   """
-  def get_match!(id), do: Repo.get!(Match, id)
+  def get_match!(id), do: Match |> Repo.get!(id) |> Repo.preload(:contenders)
 
   @doc """
   Creates a match.
@@ -227,7 +230,7 @@ defmodule Cuttlefish.Game do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contender!(id), do: Repo.get!(Contender, id)
+  def get_contender!(id), do: Contender |> Repo.get!(id) |> Repo.preload([:player, :match])
 
   @doc """
   Creates a contender.
@@ -244,6 +247,8 @@ defmodule Cuttlefish.Game do
   def create_contender(attrs \\ %{}) do
     %Contender{}
     |> Contender.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:player, with: &Player.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:match, with: &Match.changeset/2)
     |> Repo.insert()
   end
 
@@ -262,6 +267,7 @@ defmodule Cuttlefish.Game do
   def update_contender(%Contender{} = contender, attrs) do
     contender
     |> Contender.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:player, with: &Player.changeset/2)
     |> Repo.update()
   end
 

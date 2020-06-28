@@ -1,11 +1,13 @@
 defmodule Cuttlefish.Game.Contender do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Cuttlefish.Game.Match
+  alias Cuttlefish.Auth.Player
 
   schema "contenders" do
     field :value, :integer
-    field :player_id, :id
-    field :match_id, :id
+    belongs_to :player, Player
+    belongs_to :match, Match
 
     timestamps()
   end
@@ -13,7 +15,7 @@ defmodule Cuttlefish.Game.Contender do
   @doc false
   def changeset(contender, attrs) do
     contender
-    |> cast(attrs, [:value])
-    |> validate_required([:value])
+    |> cast(attrs, [:value, :player_id, :match_id])
+    |> validate_required([])
   end
 end

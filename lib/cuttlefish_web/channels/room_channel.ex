@@ -2,6 +2,7 @@ defmodule CuttlefishWeb.RoomChannel do
   use Phoenix.Channel
   alias CuttlefishWeb.Presence
   alias Cuttlefish.Game
+  alias Cuttlefish.Auth
 
   @valid_status ["game_started", "game_ended", "game_restarted"]
 
@@ -34,7 +35,18 @@ defmodule CuttlefishWeb.RoomChannel do
   end
 
   def handle_in("card_picked", msg, socket) do
+    %{"match_id" => match_id, "username" => username, "value" => value} = msg
+
+    player = Auth.search(username)
+    match = Game.get_match!(match_id)
+
+    %{value: value}
+    |> (fn attrs -> Ecto.build_assoc(player, :contenders, attrs) end).()
+    |> (fn attrs -> Ecto.build_assoc(match, :contenders, attrs) end).()
+    |> Cuttlefish.Repo.insert
+
     broadcast!(socket, "card_picked", msg)
+
     {:noreply, socket}
   end
 
