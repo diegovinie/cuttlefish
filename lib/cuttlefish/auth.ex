@@ -40,7 +40,7 @@ defmodule Cuttlefish.Auth do
       ** (Ecto.NoResultsError)
 
   """
-  def get_player!(id), do: Repo.get!(Player, id)
+  def get_player!(id), do: Player |> Repo.get!(id) |> Repo.preload(:matches)
 
   @doc """
   Creates a player.
