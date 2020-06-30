@@ -17,6 +17,11 @@ const GameBoard = () => {
     setBoardPlayers(replacePlayer)
   }
 
+  const resetBoardPlayers = () => {
+    const cleanValues = ps => ps.map(p => ({ username: p.username, value: null }))
+    setBoardPlayers(cleanValues)
+  }
+
   const { state: { displayed }, fire, reset } = useNotify()
 
   const connected = useMemo(() => ws.info.connected, [ws.info.connected])
@@ -25,6 +30,11 @@ const GameBoard = () => {
     console.log(msg)
     dispatch({ type: 'SET_MATCH_ID', matchId: msg.match_id })
     setStatus('started')
+  }
+
+  const handleGameRestarted = msg => {
+    setStatus('standby')
+    resetBoardPlayers()
   }
 
   const handleJoin = e => {
@@ -38,17 +48,14 @@ const GameBoard = () => {
 
       ws.onCardPicked(updateBoardPlayer)
       ws.onStarted(handleGameStarted)
-      ws.onRestarted(() => setStatus('standby'))
+      ws.onRestarted(handleGameRestarted)
       ws.onEnded(() => setStatus('ended'))
 
       setBoardPlayers(players)
     })
   }
 
-  const handleStart = () => {
-    // setStatus('started')
-    ws.startGame()
-  }
+  const handleToggle = status === 'standby' ? ws.startGame : ws.restartGame
 
   const handleGather = () => {
     setStatus('standby')
@@ -74,7 +81,7 @@ const GameBoard = () => {
       <Table
         players={boardPlayers}
         status={status}
-        onStart={handleStart}
+        onStart={handleToggle}
         />
       {connected && (
         <button type="button" className="button is-primary" onClick={handleJoin}>
@@ -83,7 +90,7 @@ const GameBoard = () => {
       )}
 
       {status === 'standby' && (
-        <button type="button" className="button is-primary" onClick={handleStart}>
+        <button type="button" className="button is-primary" onClick={handleToggle}>
           start
         </button>
       )}
