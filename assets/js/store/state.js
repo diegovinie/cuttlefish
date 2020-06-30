@@ -6,6 +6,9 @@ export const initialState = {
   // standby | started | ended
   status: 'standby',
   matchid: null,
+  stats: {
+    avg: null
+  }
 }
 
 export const reducer = (state, action) => {
@@ -26,6 +29,15 @@ export const reducer = (state, action) => {
       return {
         ...state,
         status: action.status
+      }
+
+    case 'SET_STATS':
+      return {
+        ...state,
+        stats: {
+          ...state.stats,
+          ...action.stats
+        }
       }
 
     case 'SET_MATCH_ID':

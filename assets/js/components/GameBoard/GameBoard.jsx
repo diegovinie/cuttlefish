@@ -7,7 +7,7 @@ import ws from '@/services/ws'
 import './GameBoard.scss'
 
 const GameBoard = () => {
-  const [{ user, players, status }, dispatch] = useContextValue()
+  const [{ user, players, status, stats }, dispatch] = useContextValue()
   const [boardPlayers, setBoardPlayers] = useState([])
 
   const setStatus = status => dispatch({ type: 'SET_STATUS', status })
@@ -34,7 +34,13 @@ const GameBoard = () => {
 
   const handleGameRestarted = msg => {
     setStatus('standby')
+    dispatch({type: 'SET_STATS', stats: { avg: null } })
     resetBoardPlayers()
+  }
+
+  const handleGameEnded = msg => {
+    setStatus('ended')
+    dispatch({type: 'SET_STATS', stats: { avg: msg.avg } })
   }
 
   const handleJoin = e => {
@@ -49,7 +55,7 @@ const GameBoard = () => {
       ws.onCardPicked(updateBoardPlayer)
       ws.onStarted(handleGameStarted)
       ws.onRestarted(handleGameRestarted)
-      ws.onEnded(() => setStatus('ended'))
+      ws.onEnded(handleGameEnded)
 
       setBoardPlayers(players)
     })
@@ -81,6 +87,7 @@ const GameBoard = () => {
       <Table
         players={boardPlayers}
         status={status}
+        stats={stats}
         onStart={handleToggle}
         />
       {connected && (

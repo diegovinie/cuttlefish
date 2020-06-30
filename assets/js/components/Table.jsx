@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState } from 'react'
 import './Table.scss'
 
 const Table = props => {
-  const { players, status, onStart } = props
+  const { players, status, stats, onStart } = props
 
   // standby | started | ended
   // const [status, setStatus] = useState('standby')
@@ -38,7 +38,8 @@ const Table = props => {
     <div className="d-table">
       <div onClick={toggleStatus} className={`d-table-content ${status}`}>
         <div className="d-table-content-status">
-          {status}
+          <b>{status}</b>
+           {stats.avg && <span> | avg: {stats.avg}</span>}
         </div>
         {mappedPositions.map(p => (
           <div
