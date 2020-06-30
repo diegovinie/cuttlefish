@@ -8,7 +8,7 @@ defmodule Cuttlefish.Game.Match do
     field :avg, :decimal
     field :name, :string
     field :sd, :decimal
-    field :status_id, :integer
+    field :status, :string
     has_many :contenders, Contender
     many_to_many :players, Player, join_through: "contenders",
                                       on_replace: :delete
@@ -19,7 +19,7 @@ defmodule Cuttlefish.Game.Match do
   @doc false
   def changeset(match, attrs) do
     match
-    |> cast(attrs, [:name, :avg, :sd, :status_id])
+    |> cast(attrs, [:name, :avg, :sd, :status])
     |> validate_required([:name])
   end
 end

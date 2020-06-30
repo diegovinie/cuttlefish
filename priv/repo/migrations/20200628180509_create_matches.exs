@@ -6,7 +6,7 @@ defmodule Cuttlefish.Repo.Migrations.CreateMatches do
       add :name, :string
       add :avg, :decimal
       add :sd, :decimal
-      add :status_id, :integer
+      add :status, :string
 
       timestamps()
     end

@@ -53,15 +53,16 @@ defmodule CuttlefishWeb.RoomChannel do
   def handle_in("game_ended", msg, socket) do
     match = Game.get_match! msg["match_id"]
 
-    IO.inspect match.contenders
-
     avg = match.contenders
     |> Enum.map(fn %{value: value} -> value end)
     |> calc_avg
 
-    {:ok, match} = Game.update_match(match, %{avg: avg})
+    {:ok, _} = Game.update_match(match, %{avg: avg, status: "game_ended"})
 
-    broadcast! socket, "game_ended", Map.put(msg, "avg", avg)
+    if match.status != "game_ended" do
+      broadcast! socket, "game_ended", Map.put(msg, "avg", avg)
+    end
+
     {:noreply, socket}
   end
 
