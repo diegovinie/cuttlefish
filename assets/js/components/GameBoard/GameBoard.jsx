@@ -3,6 +3,7 @@ import { useContextValue } from '@/store'
 import playerApi from '@/api/players'
 import { useNotify } from '@/components/Notify'
 import Table from '@/components/Table.jsx'
+import GameBoardControls from './GameBoardControls.jsx'
 import ws from '@/services/ws'
 import './GameBoard.scss'
 
@@ -43,6 +44,10 @@ const GameBoard = () => {
     dispatch({type: 'SET_STATS', stats: { avg: msg.avg } })
   }
 
+  const handleGameLeft = msg => {
+    dispatch({ type: 'SET_PLAYERS', players: [] })
+  }
+
   const handleJoin = e => {
     const { presence } = ws.joinGame()
 
@@ -56,6 +61,7 @@ const GameBoard = () => {
       ws.onStarted(handleGameStarted)
       ws.onRestarted(handleGameRestarted)
       ws.onEnded(handleGameEnded)
+      ws.onLeave(handleGameLeft)
 
       setBoardPlayers(players)
     })
@@ -84,44 +90,24 @@ const GameBoard = () => {
 
   return (
     <div className="game-board">
+      <div className="game-board-controls-container">
+        <GameBoardControls
+          connected={connected}
+          handleJoin={handleJoin}
+          handleGather={ws.leaveGame}
+          handleToggle={handleToggle}
+          boardPlayers={boardPlayers}
+        />
+      </div>
       <Table
         players={boardPlayers}
         status={status}
         stats={stats}
         onStart={handleToggle}
         />
-      {connected && (
-        <button type="button" className="button is-primary" onClick={handleJoin}>
-          join
-        </button>
-      )}
-
-      {status === 'standby' && (
-        <button type="button" className="button is-primary" onClick={handleToggle}>
-          start
-        </button>
-      )}
-
-      {status === 'ended' && (
-        <button type="button" className="button is-primary" onClick={handleGather}>
-          back
-        </button>
-      )}
 
       <div className="game-board-game">
-        <div className="game-board-game-title">Game</div>
-        <div className="game-board-game-players">
-          {boardPlayers.map(player => (
-            <div key={player.username} className="game-board-game-players-player">
-              <div>
-                {player.username}
-              </div>
-              <div>
-                {player.value}
-              </div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </div>
   )

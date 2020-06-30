@@ -51,7 +51,15 @@ const joinGame = () => {
   rooms.game = { channel, presence }
   info.inGame = true
 
+  window.ch = channel
+
   return { channel, presence }
+}
+
+const leaveGame = () => {
+  rooms.game?.channel?.leave()
+
+  delete rooms.game
 }
 
 const pickCard = (matchId, value) => {
@@ -67,6 +75,8 @@ const pickCard = (matchId, value) => {
 const onMsg = callback => rooms.lobby?.channel?.on('new_msg', callback)
 
 const onCardPicked = callback => rooms.game?.channel?.on('card_picked', callback)
+
+const onLeave = callback => rooms.game?.channel?.on ('phx_close', callback)
 
 const startGame = () => {
   rooms.game?.channel?.push('game_started', {
@@ -101,6 +111,7 @@ export default {
   connect,
   joinLobby,
   joinGame,
+  leaveGame,
   sendMsg,
   startGame,
   restartGame,
@@ -109,6 +120,7 @@ export default {
   onMsg,
   onCardPicked,
   onStarted,
+  onLeave,
   onRestarted,
   onEnded,
 }
