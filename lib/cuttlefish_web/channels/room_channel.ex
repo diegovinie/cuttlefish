@@ -50,6 +50,21 @@ defmodule CuttlefishWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("game_ended", msg, socket) do
+    match = Game.get_match! msg["match_id"]
+
+    IO.inspect match.contenders
+
+    avg = match.contenders
+    |> Enum.map(fn %{value: value} -> value end)
+    |> calc_avg
+
+    {:ok, match} = Game.update_match(match, %{avg: avg})
+
+    broadcast! socket, "game_ended", Map.put(msg, "avg", avg)
+    {:noreply, socket}
+  end
+
   def handle_in(status, msg, socket) when status in @valid_status do
     case status == "game_started" do
       true ->
@@ -60,5 +75,13 @@ defmodule CuttlefishWeb.RoomChannel do
     end
 
     {:noreply, socket}
+  end
+
+  def calc_avg numbers do
+    {sum, count} = Enum.reduce numbers, {0, 0}, fn num, {s, c} ->
+      {s + num, c + 1}
+    end
+
+    sum / count
   end
 end

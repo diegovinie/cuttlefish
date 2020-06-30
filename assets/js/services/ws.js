@@ -6,7 +6,8 @@ const rooms = {}
 const info = {
   connected: false,
   username: null,
-  inGame: false
+  inGame: false,
+  matchId: null,
 }
 
 const addJoinListeners = (name, chn) => chn.join()
@@ -54,6 +55,8 @@ const joinGame = () => {
 }
 
 const pickCard = (matchId, value) => {
+  info.matchId = matchId
+
   rooms.game?.channel?.push('card_picked', {
     username: info.username,
     match_id: matchId,
@@ -79,7 +82,8 @@ const restartGame = () => {
 
 const endGame = () => {
   rooms.game?.channel?.push('game_ended', {
-    username: info.username
+    username: info.username,
+    match_id: info.matchId,
   })
 }
 
