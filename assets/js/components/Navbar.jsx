@@ -40,7 +40,8 @@ const Navbar = () => {
   useEffect(
     () => {
       checkUsername()
-    }
+    },
+    [checkUsername]
   )
 
   return (
