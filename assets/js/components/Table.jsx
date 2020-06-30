@@ -19,7 +19,7 @@ const Table = props => {
 
   const getPosition = (pos) => {
     return status === 'ended'
-      ? `rotateZ(0deg) translateX(${90 + pos}px)`
+      ? `rotateZ(0deg) translateX(${90 + pos * 0.8}px)`
       : `rotateZ(${pos}deg)`
   }
 

@@ -1,5 +1,6 @@
 $transition: ease 1s;
 $reverse-bg: var(--light);
+$table-radious: 400px;
 
 .d-table {
   margin: auto;
@@ -9,8 +10,8 @@ $reverse-bg: var(--light);
     margin: auto;
     position: relative;
     margin: auto;
-    width: 500px;
-    height: 500px;
+    width: $table-radious;
+    height: $table-radious;
     border: solid 2px var(--primary);
     border-radius: 50%;
     transition: $transition;
@@ -23,9 +24,9 @@ $reverse-bg: var(--light);
 
     &-player {
       position: absolute;
-      top: 240px;
-      left: 4rem;
-      transform-origin: 200px 1rem;
+      top: 0.48 * $table-radious;
+      left: 0.112 * $table-radious;
+      transform-origin: (0.4 * $table-radious) 1rem;
       transition: $transition;
 
       & > .card {
@@ -48,7 +49,7 @@ $reverse-bg: var(--light);
           transition: $transition;
           transform-origin: 100% 0;
           display: flex;
-          
+
           & > span {
             margin: auto;
           }
