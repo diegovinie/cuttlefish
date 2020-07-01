@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import ws from '@/services/ws'
 import { useContextValue } from '@/store'
 import './ChatBox.scss'
+
+dayjs.extend(relativeTime)
 
 const ChatBox = () => {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState([])
   const [{ user: { username }, players }, dispatch] = useContextValue()
+  const [tick, setTick] = useState(0)
 
   const setPlayers = players => dispatch({ type: 'SET_PLAYERS', players })
 
@@ -33,6 +38,13 @@ const ChatBox = () => {
       }
     },
     [username]
+  )
+
+  useEffect(
+    () => {
+      const id = setTimeout(() => setTick(tick + 1), 10000)
+      return () => clearTimeout(id)
+    }
   )
 
   const connected = useMemo(() => ws.info.connected, [ws.info.connected])
@@ -64,7 +76,7 @@ const ChatBox = () => {
                     U: {msg.username}
                   </div>
                   <div className="time">
-                    T: {msg.created_at}
+                    T: {dayjs(msg.created_at).fromNow()}
                   </div>
                   <div className="body">
                     {msg.body}
