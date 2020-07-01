@@ -15,30 +15,33 @@ const GameBoardControls = props => {
   } = props
 
   return (
-    <div className="game-board-controls">
-      <div className="field">
-        <label className="label">Match</label>
-        <div className="control">
-          <input
-            className="input"
-            type="text"
-            placeholder="Match's name"
-            />
-        </div>
-      </div>
-      <div className="game-board-game-players">
-        {boardPlayers.map(player => (
-          <div key={player.username} className="game-board-game-players-player">
-            <div>
-              {player.username}
-            </div>
-            <div>
-              {player.value}
-            </div>
+    <div className={`game-board-controls ${Status.status}`}>
+      <div className="game-board-controls-display">
+        <div className="field">
+          <label className="label">Match</label>
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              placeholder="Match's name"
+              />
           </div>
-        ))}
+        </div>
+        <div className="game-board-controls-participants field">
+          <label className="label">Participants:</label>
+            <div className="game-board-game-players control">
+              {boardPlayers.map(player => (
+                <div key={player.username} className="game-board-game-players-player">
+                  <div>
+                    {player.username}
+                  </div>
+                </div>
+              ))}
+            </div>
+        </div>
+        <hr />
       </div>
-      <div className="field is-grouped is-grouped-centered">
+      <div className="game-board-controls-buttons field">
         <div className="control">
           {!Status.connected && (
             <button type="button" className="button is-primary" onClick={handleJoin}>
