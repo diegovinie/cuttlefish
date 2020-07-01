@@ -10,7 +10,7 @@
     &-title {
       text-align: center;
       margin: auto;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     &-list {
@@ -20,8 +20,12 @@
       margin: 0;
 
       &-card {
-        padding: 0 0.5rem;
-        // border: solid 1px var(--primary);
+        padding: 0rem 0.5rem;
+
+        & > .button {
+          width: 4rem;
+          height: 6rem;
+        }
       }
     }
   }
