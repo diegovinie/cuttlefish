@@ -4,7 +4,7 @@ export const initialState = {
   },
   players: [],
   // standby | started | ended
-  status: 'standby',
+  status: 'disconnected',
   matchid: null,
   stats: {
     avg: null

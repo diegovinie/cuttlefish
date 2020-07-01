@@ -36,7 +36,6 @@ const GameBoard = () => {
   const handleGameRestarted = msg => {
     setStatus('standby')
     dispatch({type: 'SET_STATS', stats: { avg: null } })
-    resetBoardPlayers()
   }
 
   const handleGameEnded = msg => {
@@ -63,8 +62,15 @@ const GameBoard = () => {
       ws.onEnded(handleGameEnded)
       ws.onLeave(handleGameLeft)
 
+      setStatus('standby')
       setBoardPlayers(players)
     })
+  }
+
+  const handleLeave = () => {
+    ws.leaveGame()
+    setStatus('disconnected')
+    setBoardPlayers([])
   }
 
   const handleToggle = status === 'standby' ? ws.startGame : ws.restartGame
@@ -72,6 +78,17 @@ const GameBoard = () => {
   const handleGather = () => {
     setStatus('standby')
   }
+
+  const Status = useMemo(
+    () => ({
+      status,
+      connected: status !== 'disconnected',
+      standby: status === 'standby',
+      started: status === 'started',
+      ended: status === 'ended'
+    }),
+    [status]
+  )
 
   useEffect(
     () => {
@@ -92,16 +109,16 @@ const GameBoard = () => {
     <div className="game-board">
       <div className="game-board-controls-container">
         <GameBoardControls
-          connected={connected}
+          Status={Status}
           handleJoin={handleJoin}
-          handleGather={ws.leaveGame}
+          handleGather={handleLeave}
           handleToggle={handleToggle}
           boardPlayers={boardPlayers}
         />
       </div>
       <Table
         players={boardPlayers}
-        status={status}
+        Status={Status}
         stats={stats}
         onStart={handleToggle}
         />

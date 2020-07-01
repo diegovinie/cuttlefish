@@ -7,7 +7,7 @@ import ws from '@/services/ws'
 
 const GameBoardControls = props => {
   const {
-    connected,
+    Status,
     handleJoin,
     handleGather,
     handleToggle,
@@ -16,25 +16,16 @@ const GameBoardControls = props => {
 
   return (
     <div className="game-board-controls">
-      {connected && (
-        <button type="button" className="button is-primary" onClick={handleJoin}>
-          join
-        </button>
-      )}
-
-      {status === 'standby' && (
-        <button type="button" className="button is-primary" onClick={handleToggle}>
-          start
-        </button>
-      )}
-
-      {true && (
-        <button type="button" className="button is-primary" onClick={handleGather}>
-          back
-        </button>
-      )}
-
-      <div className="game-board-game-title">Game</div>
+      <div className="field">
+        <label className="label">Match</label>
+        <div className="control">
+          <input
+            className="input"
+            type="text"
+            placeholder="Match's name"
+            />
+        </div>
+      </div>
       <div className="game-board-game-players">
         {boardPlayers.map(player => (
           <div key={player.username} className="game-board-game-players-player">
@@ -46,6 +37,40 @@ const GameBoardControls = props => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="field is-grouped is-grouped-centered">
+        <div className="control">
+          {!Status.connected && (
+            <button type="button" className="button is-primary" onClick={handleJoin}>
+              join
+            </button>
+          )}
+
+          {Status.connected &&  (
+            <button type="button" className="button is-primary" onClick={handleGather}>
+              Leave
+            </button>
+          )}
+        </div>
+        <div className="control">
+          {Status.standby && (
+            <button type="button" className="button is-info" onClick={handleToggle}>
+              start
+            </button>
+          )}
+
+          {Status.started && (
+            <button type="button" className="button is-info" onClick={handleToggle}>
+              end
+            </button>
+          )}
+
+          {Status.ended && (
+            <button type="button" className="button is-info" onClick={handleToggle}>
+              restart
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )

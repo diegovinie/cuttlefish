@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState } from 'react'
 import './Table.scss'
 
 const Table = props => {
-  const { players, status, stats, onStart } = props
+  const { players, Status, stats, onStart } = props
 
   // standby | started | ended
   // const [status, setStatus] = useState('standby')
@@ -18,7 +18,7 @@ const Table = props => {
   )
 
   const getPosition = (pos) => {
-    return status === 'ended'
+    return Status.ended
       ? `rotateZ(0deg) translateX(${90 + pos * 0.8}px)`
       : `rotateZ(${pos}deg)`
   }
@@ -36,9 +36,9 @@ const Table = props => {
 
   return (
     <div className="d-table">
-      <div onClick={toggleStatus} className={`d-table-content ${status}`}>
+      <div onClick={toggleStatus} className={`d-table-content ${Status.status}`}>
         <div className="d-table-content-status">
-          <b>{status}</b>
+          <b>{Status.status}</b>
            {stats.avg && <span> | avg: {stats.avg}</span>}
         </div>
         {mappedPositions.map(p => (
