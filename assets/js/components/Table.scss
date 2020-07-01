@@ -1,5 +1,5 @@
 $transition: ease 1s;
-$reverse-bg: var(--light);
+$reverse-bg: url(/images/pngegg.png) var(--light);
 $table-radious: 400px;
 
 .d-table {
@@ -46,6 +46,9 @@ $table-radious: 400px;
           height: 100%;
           z-index: 1;
           background: $reverse-bg;
+          background-size: 80%;
+          background-repeat: no-repeat;
+          background-position: center;
           transition: $transition;
           transform-origin: 100% 0;
           display: flex;
