@@ -20,6 +20,6 @@ defmodule Cuttlefish.Game.Match do
   def changeset(match, attrs) do
     match
     |> cast(attrs, [:name, :avg, :sd, :status])
-    |> validate_required([:name])
+    # |> validate_required([:name])
   end
 end

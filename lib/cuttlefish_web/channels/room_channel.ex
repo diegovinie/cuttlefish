@@ -57,7 +57,11 @@ defmodule CuttlefishWeb.RoomChannel do
     |> Enum.map(fn %{value: value} -> value end)
     |> calc_avg
 
-    {:ok, _} = Game.update_match(match, %{avg: avg, status: "game_ended"})
+    {:ok, _} = Game.update_match(match, %{
+      name: msg["name"],
+      avg: avg,
+      status: "game_ended"
+    })
 
     if match.status != "game_ended" do
       broadcast! socket, "game_ended", Map.put(msg, "avg", avg)
