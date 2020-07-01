@@ -1,5 +1,5 @@
 .chat-box {
-  min-width: 350px;
+  min-width: 320px;
 
   &-content {
     min-height: 300px;
@@ -18,7 +18,7 @@
       list-style: none;
 
       &-container {
-        font-size: 75%;
+        // font-size: 75%;
         background-color: #FFFFFF;
         color: var(--dark);
         padding: 0.5rem 1rem;
@@ -38,7 +38,7 @@
       margin: 0;
       list-style: none;
       flex: 1;
-      font-size: 50%;
+      // font-size: 50%;
 
       &-message {
         margin: 0;
@@ -46,6 +46,7 @@
         padding: 0.5rem;
 
         & .username, & .time {
+          font-size: 75%;
           color: var(--light);
         }
       }

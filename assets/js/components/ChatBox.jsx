@@ -72,14 +72,11 @@ const ChatBox = () => {
             <ul className="chat-box-content-logs">
               {messages.map(msg => (
                 <li key={msg.body} className="chat-box-content-logs-message">
-                  <div className="username">
-                    U: {msg.username}
+                  <div className="body">
+                    <b>{msg.username}:</b> {msg.body}
                   </div>
                   <div className="time">
-                    T: {dayjs(msg.created_at).fromNow()}
-                  </div>
-                  <div className="body">
-                    {msg.body}
+                    {dayjs(msg.created_at).fromNow()}
                   </div>
                 </li>
               ))}
