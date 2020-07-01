@@ -10,6 +10,7 @@ import './GameBoard.scss'
 const GameBoard = () => {
   const [{ user, players, status, stats }, dispatch] = useContextValue()
   const [boardPlayers, setBoardPlayers] = useState([])
+  const [gameName, setGameName] = useState('')
 
   const setStatus = status => dispatch({ type: 'SET_STATUS', status })
 
@@ -95,7 +96,7 @@ const GameBoard = () => {
       const completed = boardPlayers.length && boardPlayers.every(({value}) => value)
 
       if (completed) {
-        ws.endGame()
+        ws.endGame({ name: gameName })
         // fire({
         //   title: 'All done!'
         // })
@@ -114,6 +115,8 @@ const GameBoard = () => {
           handleGather={handleLeave}
           handleToggle={handleToggle}
           boardPlayers={boardPlayers}
+          name={gameName}
+          setName={e => setGameName(e.target.value)}
         />
       </div>
       <Table

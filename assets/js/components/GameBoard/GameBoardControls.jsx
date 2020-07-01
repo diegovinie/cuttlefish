@@ -11,7 +11,9 @@ const GameBoardControls = props => {
     handleJoin,
     handleGather,
     handleToggle,
-    boardPlayers
+    boardPlayers,
+    name,
+    setName,
   } = props
 
   return (
@@ -24,6 +26,8 @@ const GameBoardControls = props => {
               className="input"
               type="text"
               placeholder="Match's name"
+              value={name}
+              onChange={setName}
               />
           </div>
         </div>

@@ -90,10 +90,11 @@ const restartGame = () => {
   })
 }
 
-const endGame = () => {
+const endGame = ({ name }) => {
   rooms.game?.channel?.push('game_ended', {
     username: info.username,
     match_id: info.matchId,
+    name
   })
 }
 
