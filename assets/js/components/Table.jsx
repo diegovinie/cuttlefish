@@ -50,9 +50,9 @@ const Table = props => {
           >
             <div className="card">
               <div className="reverse">
-                <span>
-                  {p.player.value ? 'v' : 'x'}
-                </span>
+                <span
+                  className={`icon has-text-success-light fa ${p.player.value ? 'fa-check' : ''}`}
+                />
               </div>
               <div className="value">
                 <span>

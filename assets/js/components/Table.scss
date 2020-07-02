@@ -53,8 +53,10 @@ $table-radious: 400px;
           transform-origin: 100% 0;
           display: flex;
 
-          & > span {
+          & > .icon {
             margin: auto;
+            font-size: 150%;
+            transform: rotateY(180deg);
           }
         }
 
