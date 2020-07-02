@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { useNotify } from '@/components/Notify'
 import playerApi from '@/api/players'
 import { useContextValue } from '@/store'
+import { removeUrlParam } from '@/functions'
 import Login from '@/components/Login.jsx'
+import ws from '@/services/ws'
 import './Navbar.scss'
 
 const Navbar = () => {
@@ -11,14 +13,16 @@ const Navbar = () => {
   const { state: { displayed }, fire, reset } = useNotify()
 
   const location = useLocation()
+  const history = useHistory()
 
   const setUser = user => dispatch({ type: 'SET_USER', user })
 
   const checkUsername = useCallback(
     () => {
-      const username = location.search.replace(/^.*username=(\w+)&?$/, '$1')
+      const params = new URLSearchParams(location.search)
+      const username = params.get('username')
 
-      if (!username) return
+      if (!username) return handleLogout()
 
       return playerApi.lookUp(username)
         .then(({data}) => data)
@@ -35,6 +39,17 @@ const Navbar = () => {
       noActions: true,
       body: <Login onDone={reset} />
     })
+  }
+
+  const handleLogout = () => {
+    dispatch({ type: 'RESET_USER' })
+
+    if (ws.info.connected) ws.disconnect()
+
+    const search = removeUrlParam(location.search)('username')
+    history.push(search)
+
+    return true
   }
 
   useEffect(
@@ -61,9 +76,15 @@ const Navbar = () => {
               <a>About</a>
             </p>
             <p className="level-item">
-              <button onClick={handleLogin} className="button is-primary">
-                {user.username || 'Login'}
-              </button>
+              {user.username ? (
+                <button onClick={handleLogout} className="button is-primary">
+                  {user.username}
+                </button>
+              ) : (
+                <button onClick={handleLogin} className="button is-primary">
+                  Login
+                </button>
+              )}
             </p>
           </div>
         </nav>

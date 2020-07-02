@@ -12,8 +12,8 @@ const Main = () => {
 
   return (
     <StoreProvider>
-      <Notify>
-        <Router>
+      <Router>
+        <Notify>
           <div className="main">
             <Navbar />
             <article className="main-content">
@@ -22,8 +22,8 @@ const Main = () => {
             </article>
             <CardDeck />
           </div>
-        </Router>
-      </Notify>
+        </Notify>
+      </Router>
     </StoreProvider>
   )
 }

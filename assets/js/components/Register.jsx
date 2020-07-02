@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import playerApi from '@/api/players'
-import { useContextValue } from '@/store'
 
 const Register = props => {
-  const { username, onDone } = props
+  const { username, onDone, setAuthenticatedUser } = props
 
   const [question, setQuestion] = useState('')
   const [secret, setSecret] = useState('')
-  const [{ user }, dispatch] = useContextValue()
-
-  const setUser = user => dispatch({ type: 'SET_USER', user })
 
   const handleQuestionInput = e => {
     setQuestion(e.target.value)
@@ -24,7 +20,7 @@ const Register = props => {
 
     return playerApi.create({ username, question, secret })
       .then(({data}) => data)
-      .then(setUser)
+      .then(setAuthenticatedUser)
       .finally(onDone)
   }
 

@@ -1,4 +1,4 @@
-export const initialState = {
+const getInitialState = () => ({
   user: {
 
   },
@@ -9,7 +9,9 @@ export const initialState = {
   stats: {
     avg: null
   }
-}
+})
+
+export const initialState = getInitialState()
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -18,6 +20,9 @@ export const reducer = (state, action) => {
         ...state,
         user: { ...action.user }
       }
+
+    case 'RESET_USER':
+      return getInitialState()
 
     case 'SET_PLAYERS':
       return {

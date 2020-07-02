@@ -25,6 +25,11 @@ const connect = ({ username }) => {
   return socket
 }
 
+const disconnect = () => {
+  socket?.disconnect()
+  info.connected = false
+}
+
 const joinLobby = () => {
   const channel = socket.channel('room:lobby', {})
   const presence = new Presence(channel)
@@ -110,6 +115,7 @@ export default {
   info,
 
   connect,
+  disconnect,
   joinLobby,
   joinGame,
   leaveGame,
