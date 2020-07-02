@@ -36,6 +36,7 @@ const GameBoard = () => {
 
   const handleGameRestarted = msg => {
     setStatus('standby')
+    resetBoardPlayers()
     dispatch({type: 'SET_STATS', stats: { avg: null } })
   }
 
