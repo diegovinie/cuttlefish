@@ -7,12 +7,12 @@ import './CardDeck.scss'
 
 const CardDeck = () => {
   const [cardSets, setCardSets] = useState([])
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(1)
 
   const [{ matchId }, dispatch] = useContextValue()
 
   const current = useMemo(
-    () => cardSets.length > 0 ? cardSets[selected] : ({ }),
+    () => cardSets.find(c => c.id === selected) || ({ }),
     [cardSets, selected]
   )
 
@@ -34,7 +34,17 @@ const CardDeck = () => {
     <div className="card-deck">
       <div className="card-deck-content">
         <div className="card-deck-content-title">
-          {current.name}
+          <div className="select">
+            <select value={current?.id} onChange={e => setSelected(parseInt(e.target.value))}>
+              {cardSets.map(deck => (
+                <option
+                  key={`cardsets-${deck.id}`}
+                  value={deck.id}>
+                  {deck.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <ul className="card-deck-content-list">
           {current.content?.map(card => (

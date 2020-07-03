@@ -12,6 +12,11 @@
 
 Cuttlefish.Repo.insert!(%Cuttlefish.Game.CardSet{
   name: "standard",
+  content: [0, 1, 2, 3, 5, 8, 13, 20, 40, 100]
+})
+
+Cuttlefish.Repo.insert!(%Cuttlefish.Game.CardSet{
+  name: "test",
   content: [1, 3, 7]
 })
 
