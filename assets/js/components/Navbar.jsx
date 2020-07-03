@@ -28,6 +28,7 @@ const Navbar = () => {
         .then(({data}) => data)
         .then(user => user || Promise.reject(user))
         .then(setUser)
+        .catch(handleLogout)
 
     },
     [location.search]
