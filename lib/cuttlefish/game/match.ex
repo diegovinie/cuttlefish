@@ -3,6 +3,7 @@ defmodule Cuttlefish.Game.Match do
   import Ecto.Changeset
   alias Cuttlefish.Game.Contender
   alias Cuttlefish.Auth.Player
+  alias Cuttlefish.Game.CardSet
 
   schema "matches" do
     field :avg, :decimal
@@ -12,7 +13,7 @@ defmodule Cuttlefish.Game.Match do
     has_many :contenders, Contender
     many_to_many :players, Player, join_through: "contenders",
                                       on_replace: :delete
-    field :cardset_id, :integer
+    belongs_to :cardset, CardSet
 
     timestamps()
   end

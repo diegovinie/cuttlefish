@@ -1,11 +1,13 @@
 defmodule Cuttlefish.Game.CardSet do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Cuttlefish.Game.Match
 
   schema "cardsets" do
     field :content, {:array, :integer}
     field :name, :string
     field :notes, :string
+    has_many :matches, Match, foreign_key: :cardset_id
 
     timestamps()
   end
