@@ -50,6 +50,16 @@ defmodule CuttlefishWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in "game_started", msg, socket do
+    %{"cardset_id" => cardset_id} = msg
+
+    {:ok, match} = Game.create_match(%{cardset_id: cardset_id})
+
+    broadcast!(socket, "game_started", Map.put(msg, "match_id", match.id))
+
+    {:noreply, socket}
+  end
+
   def handle_in("game_ended", msg, socket) do
     match = Game.get_match! msg["match_id"]
 
@@ -71,14 +81,7 @@ defmodule CuttlefishWeb.RoomChannel do
   end
 
   def handle_in(status, msg, socket) when status in @valid_status do
-    case status == "game_started" do
-      true ->
-        {:ok, match} = Game.create_match(%{name: "testing"})
-        broadcast!(socket, status, Map.put(msg, "match_id", match.id))
-
-      false -> broadcast!(socket, status, msg)
-    end
-
+    broadcast! socket, status, msg
     {:noreply, socket}
   end
 

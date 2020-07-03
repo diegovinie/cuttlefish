@@ -85,7 +85,8 @@ const onLeave = callback => rooms.game?.channel?.on ('phx_close', callback)
 
 const startGame = () => {
   rooms.game?.channel?.push('game_started', {
-    username: info.username
+    username: info.username,
+    cardset_id: 1
   })
 }
 

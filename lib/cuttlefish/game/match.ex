@@ -12,6 +12,7 @@ defmodule Cuttlefish.Game.Match do
     has_many :contenders, Contender
     many_to_many :players, Player, join_through: "contenders",
                                       on_replace: :delete
+    field :cardset_id, :integer
 
     timestamps()
   end
@@ -19,7 +20,7 @@ defmodule Cuttlefish.Game.Match do
   @doc false
   def changeset(match, attrs) do
     match
-    |> cast(attrs, [:name, :avg, :sd, :status])
-    # |> validate_required([:name])
+    |> cast(attrs, [:name, :avg, :sd, :status, :cardset_id])
+    |> validate_required([:cardset_id])
   end
 end
