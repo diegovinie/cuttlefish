@@ -1,6 +1,5 @@
 # first version
 
-FROM node:10.19.0-alpine
 FROM elixir:latest
 
 RUN apt-get update && \
@@ -10,7 +9,6 @@ RUN mkdir /app
 COPY . /app
 WORKDIR /app
 
-  
 # Install hex manager
 RUN mix local.hex --force
 
@@ -22,7 +20,5 @@ RUN mix do compile
 
 RUN cd assets && npm install
 RUN cd assets && npm run deploy
-
-# RUN chmod +x entrypoint.sh
 
 CMD ["/app/entrypoint.sh"]
