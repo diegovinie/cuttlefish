@@ -1,24 +1,18 @@
-# first version
+# second version
 
-FROM elixir:latest
+FROM bitwalker/alpine-elixir-phoenix:latest
 
-RUN apt-get update && \
-  apt-get install -y postgresql-client npm inotify-tools
+EXPOSE 4000
+EXPOSE 80
+RUN apk add postgresql-client
+
 
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
 
-# Install hex manager
-RUN mix local.hex --force
-
-RUN mix deps.get --force
-RUN mix local.rebar --force
-
-# Compile
-RUN mix do compile
+RUN mix do deps.get, deps.compile
 
 RUN cd assets && npm install
-RUN cd assets && npm run deploy
 
 CMD ["/app/entrypoint.sh"]

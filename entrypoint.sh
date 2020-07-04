@@ -5,7 +5,7 @@
 while ! pg_isready -q -h $PGHOST -p $PGPORT -U $PGUSER
 do
   echo "$(date) - waiting for database to start"
-  sleep 2
+  sleep 20
 done
 
 # Create, migrate, and seed database if it doesn't exist.

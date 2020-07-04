@@ -5,6 +5,7 @@ services:
     build:
       context: .
     environment:
+      PORT: 80
       PGUSER: postgres
       PGPASSWORD: postgres
       PGDATABASE: cuttlefish_dev
@@ -12,9 +13,11 @@ services:
       PGHOST: db
     ports:
       - "4000:4000"
+      - "4001:80"
+      - "80:4002"
     depends_on:
       - db
-  
+
   db:
     image: postgres:9.6
     environment:
@@ -26,4 +29,4 @@ services:
       - pgdata:/var/lib/postgresql/data
 
 volumes:
-  pgdata:    
+  pgdata:
