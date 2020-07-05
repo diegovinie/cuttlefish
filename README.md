@@ -1,5 +1,10 @@
 # Cuttlefish
 
+This is an agile poker built with Phoenix/Elixir, React and Bulma.
+
++ [Notes](docs/notes.md)
+
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
