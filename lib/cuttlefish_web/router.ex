@@ -29,4 +29,8 @@ defmodule CuttlefishWeb.Router do
     resources "/cardsets", CardSetController
     resources "/matches", MatchController, except: [:new, :edit]
   end
+
+  scope "/admin", CuttlefishWeb do
+    resources "/matches", RecapController
+  end
 end

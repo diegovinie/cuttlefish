@@ -1,0 +1,28 @@
+<h1>Show Recap</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @recap.name %>
+  </li>
+
+  <li>
+    <strong>Avg:</strong>
+    <%= @recap.avg %>
+  </li>
+
+  <li>
+    <strong>Sd:</strong>
+    <%= @recap.sd %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @recap.status %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.recap_path(@conn, :edit, @recap) %></span>
+<span><%= link "Back", to: Routes.recap_path(@conn, :index) %></span>

@@ -1,0 +1,32 @@
+<h1>Listing Matches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Avg</th>
+      <th>Sd</th>
+      <th>Status</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for recap <- @matches do %>
+    <tr>
+      <td><%= recap.name %></td>
+      <td><%= recap.avg %></td>
+      <td><%= recap.sd %></td>
+      <td><%= recap.status %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.recap_path(@conn, :show, recap) %></span>
+        <span><%= link "Edit", to: Routes.recap_path(@conn, :edit, recap) %></span>
+        <span><%= link "Delete", to: Routes.recap_path(@conn, :delete, recap), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Recap", to: Routes.recap_path(@conn, :new) %></span>

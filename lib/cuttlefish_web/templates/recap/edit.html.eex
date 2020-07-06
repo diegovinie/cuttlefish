@@ -1,0 +1,5 @@
+<h1>Edit Recap</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.recap_path(@conn, :update, @recap)) %>
+
+<span><%= link "Back", to: Routes.recap_path(@conn, :index) %></span>

@@ -17,3 +17,5 @@ mix phx.gen.context Game Contender contenders \
   player_id:references:players \
   match_id:references:matches \
   value:integer
+
+mix phx.gen.html Admin Recap matches name:stringvg:decimal sd:decimal status:string --no-model --no-schema
