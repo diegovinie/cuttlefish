@@ -74,6 +74,9 @@ const Navbar = () => {
 
           <div className="level-right">
             <p className="level-item">
+              <a href="/admin/matches">Stats</a>
+            </p>
+            <p className="level-item">
               <a>About</a>
             </p>
             <p className="level-item">
